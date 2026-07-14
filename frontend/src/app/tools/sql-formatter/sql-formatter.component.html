@@ -1,0 +1,71 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-sql)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">SQL Formatter</h1>
+      <p class="tool-page-desc">Formate SQL em 15 dialetos com configuração de case e indentação</p>
+    </div>
+  </div>
+
+  <div class="sql-controls">
+    <div class="sql-control">
+      <span class="sql-control-label">Dialeto</span>
+      <select class="sql-select" [value]="dialect()" (change)="dialect.set($any($event.target).value)">
+        @for (d of dialects; track d.value) {
+          <option [value]="d.value">{{ d.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="sql-control">
+      <span class="sql-control-label">Case</span>
+      <div class="sql-toggle">
+        <button class="sql-toggle-btn" [class.active]="caseStyle() === 'upper'" (click)="caseStyle.set('upper')">UPPER</button>
+        <button class="sql-toggle-btn" [class.active]="caseStyle() === 'lower'" (click)="caseStyle.set('lower')">lower</button>
+      </div>
+    </div>
+
+    <div class="sql-control">
+      <span class="sql-control-label">Indent</span>
+      <div class="sql-toggle">
+        <button class="sql-toggle-btn" [class.active]="indent() === 2" (click)="indent.set(2)">2</button>
+        <button class="sql-toggle-btn" [class.active]="indent() === 4" (click)="indent.set(4)">4</button>
+        <button class="sql-toggle-btn" [class.active]="indent() === 8" (click)="indent.set(8)">8</button>
+      </div>
+    </div>
+
+    <div class="sql-control-spacer"></div>
+
+    <button class="tool-action" (click)="input.set(formatted())">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Format
+    </button>
+    <button class="tool-action" (click)="input.set(minified())">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="7 14 12 9 17 14"/><path d="M21 9v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9"/></svg>
+      Minify
+    </button>
+    <button class="tool-action ghost" (click)="clear()">Clear</button>
+    <button class="tool-action ghost" (click)="setExample()">Example</button>
+  </div>
+
+  <div class="tool-split">
+    <div class="tool-pane">
+      <div class="tool-pane-label">Input</div>
+      <textarea class="tool-editor" [value]="input()" (input)="input.set($any($event.target).value)" placeholder="Cole seu SQL aqui..." spellcheck="false" rows="10"></textarea>
+    </div>
+    <div class="tool-pane-divider"></div>
+    <div class="tool-pane">
+      <div class="tool-pane-label">Output</div>
+      <textarea class="tool-editor output" [value]="formatted()" readonly placeholder="SQL formatado..." spellcheck="false" rows="10"></textarea>
+    </div>
+  </div>
+
+  <div class="tool-status">
+    <span class="tool-status-text">{{ statusLine() }}</span>
+    <app-copy-button [value]="formatted()" label="Copiar" />
+  </div>
+</div>

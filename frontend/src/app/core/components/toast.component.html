@@ -1,0 +1,7 @@
+@if (visible()) {
+  <div class="toast-overlay" (click)="hide()" (keydown)="hide()" tabindex="0"></div>
+  <div class="toast" [class]="'toast-' + data().type" role="alert">
+    <span class="toast-message">{{ data().message }}</span>
+    <button class="toast-close" (click)="hide()">×</button>
+  </div>
+}

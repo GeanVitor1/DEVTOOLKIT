@@ -1,0 +1,87 @@
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb hero-orb--1" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb--2" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb--3" aria-hidden="true"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-particles" aria-hidden="true">
+    @for (p of particles; track p.x) {
+      <span class="particle" style="left: {{ p.x }}%; animation-delay: {{ p.delay }}s; animation-duration: {{ p.duration }}s;"></span>
+    }
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        v1.0 — 6 ferramentas profissionais
+      </div>
+
+      <h1 class="hero-title">
+        <span class="hero-title-line">Ferramentas que</span>
+        <span class="hero-title-line hero-title-accent">resolvem de verdade</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        HTTP Client, JSON Formatter, JWT Decoder, SQL Formatter, Regex Tester e UUID Generator.
+        Tudo 100% client-side, com a qualidade que seu código merece.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn-primary" routerLink="/tools">
+          Começar a usar
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a class="btn-secondary" href="#tools">Explorar</a>
+      </div>
+    </div>
+
+    <div class="hero-terminal" aria-hidden="true">
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+          </div>
+          <span class="terminal-title">~/devtoolkit</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line"><span class="prompt">$</span> <span class="cmd">http GET api/users</span></div>
+          <div class="terminal-line output"><span class="status-200">200</span> <span class="text-muted">OK</span> <span class="text-dim">— 234ms</span></div>
+          <div class="terminal-line output json"><span class="json-bracket">&lbrace;</span></div>
+          <div class="terminal-line output json indent"><span class="key">"users"</span>: [</div>
+          <div class="terminal-line output json indent2"><span class="key">"id"</span>: <span class="number">1</span>, <span class="key">"name"</span>: <span class="string">"John"</span></div>
+          <div class="terminal-line output json indent">]</div>
+          <div class="terminal-line output json"><span class="json-bracket">&rbrace;</span></div>
+          <div class="terminal-line spacer"></div>
+          <div class="terminal-line"><span class="prompt">$</span> <span class="cmd typing-cmd">jwt decode eyJhbGciOiJIUzI1NiI</span><span class="cursor">&#9633;</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-metrics">
+    <div class="hero-metric">
+      <span class="hero-metric-value">6</span>
+      <span class="hero-metric-label">Ferramentas</span>
+    </div>
+    <div class="hero-metric">
+      <span class="hero-metric-value">100%</span>
+      <span class="hero-metric-label">Client-side</span>
+    </div>
+    <div class="hero-metric">
+      <span class="hero-metric-value">Grátis</span>
+      <span class="hero-metric-label">Sem cadastro</span>
+    </div>
+    <div class="hero-metric">
+      <span class="hero-metric-value">Privado</span>
+      <span class="hero-metric-label">Seus dados</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <svg width="20" height="30" viewBox="0 0 20 30"><rect x="1" y="1" width="18" height="28" rx="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="2" fill="currentColor" class="scroll-dot"/></svg>
+  </div>
+</section>

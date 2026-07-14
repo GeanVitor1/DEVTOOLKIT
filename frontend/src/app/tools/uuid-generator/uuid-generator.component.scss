@@ -1,0 +1,197 @@
+.tool-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dtk-space-4);
+  max-width: 800px;
+}
+
+
+
+.tool-page-header {
+  display: flex;
+  align-items: center;
+  gap: var(--dtk-space-4);
+}
+
+.tool-page-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--dtk-radius-xl);
+  background: color-mix(in srgb, var(--page-color) 12%, transparent);
+  color: var(--page-color);
+  flex-shrink: 0;
+}
+
+.tool-page-info { display: flex; flex-direction: column; gap: 2px; }
+
+.tool-page-title {
+  font-size: var(--dtk-text-2xl);
+  font-weight: 700;
+  color: var(--dtk-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.tool-page-desc {
+  font-size: var(--dtk-text-sm);
+  color: var(--dtk-text-muted);
+}
+
+.sql-control-label {
+  font-size: var(--dtk-text-xs);
+  font-weight: 500;
+  color: var(--dtk-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sql-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--dtk-border);
+  border-radius: var(--dtk-radius-md);
+  overflow: hidden;
+}
+
+.sql-toggle-btn {
+  padding: 5px 12px;
+  font-size: var(--dtk-text-xs);
+  font-weight: 500;
+  color: var(--dtk-text-secondary);
+  transition: all var(--dtk-transition-fast);
+
+  &:hover { background: var(--dtk-bg-hover); }
+
+  &.active {
+    color: var(--dtk-uuid);
+    background: color-mix(in srgb, var(--dtk-uuid) 10%, transparent);
+  }
+}
+
+.sql-control-spacer { flex: 1; }
+
+.gen-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--dtk-space-4);
+  padding: var(--dtk-space-3);
+  background: var(--dtk-bg-surface);
+  border: 1px solid var(--dtk-border);
+  border-radius: var(--dtk-radius-xl);
+  flex-wrap: wrap;
+}
+
+.gen-control {
+  display: flex;
+  align-items: center;
+  gap: var(--dtk-space-2);
+}
+
+.gen-qty {
+  width: 70px;
+  padding: 5px 10px;
+  border: 1px solid var(--dtk-border);
+  border-radius: var(--dtk-radius-md);
+  background: var(--dtk-bg-elevated);
+  color: var(--dtk-text-primary);
+  font-size: var(--dtk-text-xs);
+  outline: none;
+  text-align: center;
+  transition: border-color var(--dtk-transition-fast);
+
+  &:focus { border-color: var(--dtk-uuid); }
+}
+
+.gen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dtk-space-2);
+  padding: 8px 20px;
+  border-radius: var(--dtk-radius-md);
+  font-size: var(--dtk-text-sm);
+  font-weight: 600;
+  color: #fff;
+  background: var(--dtk-uuid);
+  transition: all var(--dtk-transition-fast);
+
+  &:hover {
+    background: color-mix(in srgb, var(--dtk-uuid) 80%, #fff);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+  }
+}
+
+.gen-actions {
+  display: flex;
+  gap: var(--dtk-space-2);
+}
+
+.tool-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--dtk-radius-md);
+  font-size: var(--dtk-text-xs);
+  font-weight: 500;
+  color: var(--dtk-text-secondary);
+  transition: all var(--dtk-transition-fast);
+
+  &:hover { color: var(--dtk-text-primary); background: var(--dtk-bg-hover); }
+}
+
+.uuid-list {
+  border: 1px solid var(--dtk-border);
+  border-radius: var(--dtk-radius-xl);
+  overflow: hidden;
+  background: var(--dtk-bg-surface);
+}
+
+.uuid-row {
+  display: flex;
+  align-items: center;
+  gap: var(--dtk-space-3);
+  padding: var(--dtk-space-2) var(--dtk-space-3);
+  border-bottom: 1px solid var(--dtk-border);
+  font-family: var(--dtk-font-mono);
+  font-size: var(--dtk-text-sm);
+
+  &:last-child { border-bottom: none; }
+}
+
+.uuid-index {
+  color: var(--dtk-text-muted);
+  min-width: 28px;
+  font-weight: 500;
+}
+
+.uuid-value {
+  flex: 1;
+  color: var(--dtk-text-primary);
+  word-break: break-all;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--dtk-space-9) var(--dtk-space-6);
+  gap: var(--dtk-space-3);
+}
+
+.empty-icon { opacity: 0.25; margin-bottom: var(--dtk-space-2); }
+
+.empty-title {
+  font-size: var(--dtk-text-lg);
+  font-weight: 600;
+  color: var(--dtk-text-primary);
+}
+
+.empty-desc {
+  font-size: var(--dtk-text-sm);
+  color: var(--dtk-text-secondary);
+  max-width: 320px;
+}

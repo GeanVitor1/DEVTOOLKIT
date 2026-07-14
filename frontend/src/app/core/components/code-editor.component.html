@@ -1,0 +1,10 @@
+<div class="editor-wrapper" [style.height]="height()">
+  <textarea
+    class="editor-textarea"
+    [value]="code()"
+    [readonly]="readonly()"
+    [placeholder]="placeholder()"
+    (input)="onInput($event)"
+    spellcheck="false"
+  ></textarea>
+</div>

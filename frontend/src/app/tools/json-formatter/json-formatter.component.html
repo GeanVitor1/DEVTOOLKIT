@@ -1,0 +1,122 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-json)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">JSON Formatter</h1>
+      <p class="tool-page-desc">Format, minify, validate e explore JSON com tree view e JSONPath</p>
+    </div>
+  </div>
+
+  <div class="tool-action-bar">
+    <button class="tool-action" [class.active]="activeAction() === 'format'" (click)="setFormat()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Format
+    </button>
+    <button class="tool-action" [class.active]="activeAction() === 'minify'" (click)="setMinify()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="7 14 12 9 17 14"/><path d="M21 9v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9"/></svg>
+      Minify
+    </button>
+    <button class="tool-action" (click)="validate()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Validate
+    </button>
+    <div class="tool-action-spacer"></div>
+    <button class="tool-action ghost" (click)="clear()">Clear</button>
+    <button class="tool-action ghost" (click)="setExample()">Example</button>
+  </div>
+
+  <div class="tool-split">
+    <div class="tool-pane">
+      <div class="tool-pane-label">Input</div>
+      <textarea class="tool-editor" [value]="input()" (input)="input.set($any($event.target).value)" placeholder="Cole seu JSON aqui..." spellcheck="false"></textarea>
+    </div>
+    <div class="tool-pane-divider"></div>
+    <div class="tool-pane">
+      <div class="tool-pane-label">Output</div>
+      <textarea class="tool-editor output" [value]="output()" readonly placeholder="JSON formatado aparecerá aqui..." spellcheck="false"></textarea>
+    </div>
+  </div>
+
+  <div class="tool-status">
+    <span class="tool-status-text" [class.valid]="isValid()" [class.invalid]="!isValid()">{{ statusLine() }}</span>
+    <app-copy-button [value]="output()" label="Copiar" />
+  </div>
+
+  <div class="tool-section">
+    <div class="tool-section-header">
+      <h3 class="tool-section-title">Tree View</h3>
+    </div>
+    <div class="tree-container">
+      @for (node of getTree(); track node.key + node.type) {
+        <div class="tree-node root-node">
+          <div class="tree-row" (click)="toggleNode(node)" (keydown)="toggleNode(node)" tabindex="0" role="button">
+            <span class="tree-toggle">{{ node.expanded ? '▾' : '▸' }}</span>
+            <span class="tree-key">{{ node.key }}</span>
+            @if (node.type === 'object' || node.type === 'array') {
+              <span class="tree-type">{{ getTypeLabel(node.type) }}</span>
+              <span class="tree-count">{{ node.children ? node.children.length : 0 }} {{ node.type === 'array' ? 'items' : 'props' }}</span>
+            } @else {
+              <span class="tree-value type-{{node.type}}">{{ getValuePreview(node) }}</span>
+              <span class="tree-type">{{ getTypeLabel(node.type) }}</span>
+            }
+          </div>
+          @if (node.expanded && node.children) {
+            <div class="tree-children">
+              @for (child of node.children; track child.key + child.type) {
+                <div class="tree-node" style="padding-left: 16px">
+                  <div class="tree-row" (click)="toggleNode(child)" (keydown)="toggleNode(child)" tabindex="0" role="button">
+                    <span class="tree-toggle">{{ child.expanded ? '▾' : '▸' }}</span>
+                    <span class="tree-key">{{ child.key }}</span>
+                    @if (child.type === 'object' || child.type === 'array') {
+                      <span class="tree-type">{{ getTypeLabel(child.type) }}</span>
+                      <span class="tree-count">{{ child.children ? child.children.length : 0 }} {{ child.type === 'array' ? 'items' : 'props' }}</span>
+                    } @else {
+                      <span class="tree-value type-{{child.type}}">{{ getValuePreview(child) }}</span>
+                      <span class="tree-type">{{ getTypeLabel(child.type) }}</span>
+                    }
+                  </div>
+                  @if (child.expanded && child.children) {
+                    <div class="tree-children">
+                      @for (sub of child.children; track sub.key + sub.type) {
+                        <div class="tree-node leaf" style="padding-left: 32px">
+                          <div class="tree-row">
+                            <span class="tree-key">{{ sub.key }}</span>
+                            <span class="tree-value type-{{sub.type}}">{{ getValuePreview(sub) }}</span>
+                            <span class="tree-type">{{ getTypeLabel(sub.type) }}</span>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="tool-section">
+    <div class="tool-section-header">
+      <h3 class="tool-section-title">JSONPath Query</h3>
+    </div>
+    <div class="jsonpath-row">
+      <input
+        class="jsonpath-input"
+        [ngModel]="jsonpathQuery()"
+        (ngModelChange)="jsonpathQuery.set($event); queryJsonpath()"
+        placeholder="$.name, $.address.city, etc."
+      />
+    </div>
+    @if (jsonpathResult()) {
+      <div class="jsonpath-result">
+        <textarea class="tool-editor output" [value]="jsonpathResult()" readonly rows="3" spellcheck="false"></textarea>
+      </div>
+    }
+  </div>
+</div>

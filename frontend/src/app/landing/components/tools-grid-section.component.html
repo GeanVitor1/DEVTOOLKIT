@@ -1,0 +1,20 @@
+<section id="tools" class="tools">
+  <div class="section-header">
+    <h2 class="section-title">Ferramentas</h2>
+    <p class="section-desc">Seis ferramentas essenciais para desenvolvedores</p>
+  </div>
+  <div class="tools-grid">
+    @for (tool of tools; track tool.name) {
+      <a class="tool-card" [routerLink]="tool.route" [style.--tool-color]="tool.color">
+        <div class="tool-card-icon" [innerHTML]="tool.icon | safeHtml"></div>
+        <h3 class="tool-card-title">{{ tool.name }}</h3>
+        <p class="tool-card-desc">{{ tool.description }}</p>
+        <div class="tool-card-tags">
+          @for (feat of tool.features; track feat) {
+            <span class="tool-tag">{{ feat }}</span>
+          }
+        </div>
+      </a>
+    }
+  </div>
+</section>

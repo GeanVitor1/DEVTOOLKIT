@@ -1,0 +1,205 @@
+<div class="http-tool">
+  <div class="url-bar">
+    <select class="method-select" [value]="method()" (change)="method.set($any($event.target).value)">
+      @for (m of methods; track m) {
+        <option [value]="m">{{ m }}</option>
+      }
+    </select>
+    <input
+      class="url-input"
+      [value]="url()"
+      (input)="url.set($any($event.target).value)"
+      placeholder="Enter request URL..."
+      (keydown)="($event.key === 'Enter') && send()"
+    />
+    <button class="btn-send" (click)="send()" [disabled]="loading()">
+      @if (loading()) {
+        <span class="spinner"></span>
+      } @else {
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      }
+      <span>{{ loading() ? 'Sending...' : 'Send' }}</span>
+    </button>
+  </div>
+
+  <div class="tabs-bar">
+    @for (tab of tabs; track tab.id) {
+      <button class="tab-btn" [class.active]="activeTab() === tab.id" (click)="activeTab.set(tab.id)">
+        {{ tab.label }}
+      </button>
+    }
+  </div>
+
+  <div class="tab-content">
+    @if (activeTab() === 'headers') {
+      <div class="kv-table">
+        <div class="kv-header">
+          <span class="kv-col-check"></span>
+          <span class="kv-col-key">Header Name</span>
+          <span class="kv-col-value">Value</span>
+          <span class="kv-col-action"></span>
+        </div>
+        @for (row of headers(); track trackByIndex($index)) {
+          <div class="kv-row">
+            <input type="checkbox" class="kv-check" [checked]="row.enabled" (change)="row.enabled = !row.enabled; headers.update(h => [...h])" />
+            <input class="kv-input" [value]="row.key" (input)="row.key = $any($event.target).value; headers.update(h => [...h])" placeholder="Header name" />
+            <input class="kv-input" [value]="row.value" (input)="row.value = $any($event.target).value; headers.update(h => [...h])" placeholder="Value" />
+            <button class="kv-remove" (click)="removeHeader($index)" aria-label="Remove header">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        }
+        <button class="kv-add" (click)="addHeader()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Header
+        </button>
+      </div>
+    }
+
+    @if (activeTab() === 'params') {
+      <div class="kv-table">
+        <div class="kv-header">
+          <span class="kv-col-check"></span>
+          <span class="kv-col-key">Parameter</span>
+          <span class="kv-col-value">Value</span>
+          <span class="kv-col-action"></span>
+        </div>
+        @for (row of params(); track trackByIndex($index)) {
+          <div class="kv-row">
+            <input type="checkbox" class="kv-check" [checked]="row.enabled" (change)="row.enabled = !row.enabled; params.update(p => [...p])" />
+            <input class="kv-input" [value]="row.key" (input)="row.key = $any($event.target).value; headers.update(h => [...h])" placeholder="Param name" />
+            <input class="kv-input" [value]="row.value" (input)="row.value = $any($event.target).value; headers.update(h => [...h])" placeholder="Value" />
+            <button class="kv-remove" (click)="removeParam($index)" aria-label="Remove param">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        }
+        <button class="kv-add" (click)="addParam()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Parameter
+        </button>
+      </div>
+    }
+
+    @if (activeTab() === 'auth') {
+      <div class="auth-panel">
+        <select class="auth-select" [value]="authType()" (change)="authType.set($any($event.target).value)">
+          @for (at of authTypes; track at.value) {
+            <option [value]="at.value">{{ at.label }}</option>
+          }
+        </select>
+        @if (authType() !== 'none') {
+          <input
+            class="auth-input"
+            [value]="authValue()"
+            (input)="authValue.set($any($event.target).value)"
+            [placeholder]="authType() === 'bearer' ? 'Enter token...' : authType() === 'basic' ? 'username:password' : 'Enter API key...'"
+          />
+        }
+      </div>
+    }
+
+    @if (activeTab() === 'body') {
+      <div class="body-panel">
+        <div class="body-options">
+          <button class="body-type-btn" [class.active]="bodyType() === 'json'" (click)="bodyType.set('json')">JSON</button>
+          <button class="body-type-btn" [class.active]="bodyType() === 'text'" (click)="bodyType.set('text')">Text</button>
+        </div>
+        <textarea
+          class="body-editor"
+          [value]="bodyContent()"
+          (input)="bodyContent.set($any($event.target).value)"
+          placeholder='{"key": "value"}'
+          spellcheck="false"
+          rows="8"
+        ></textarea>
+      </div>
+    }
+  </div>
+
+  <div class="action-row">
+    <button class="btn-send secondary" (click)="send()" [disabled]="loading()">
+      @if (loading()) { <span class="spinner"></span> }
+      Send
+    </button>
+    <button class="btn-ghost" (click)="copyAsCurl()" [disabled]="!url()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+      Copy as cURL
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="response-loading">
+      <div class="skeleton skeleton-meta"></div>
+      <div class="skeleton skeleton-body"></div>
+    </div>
+  }
+
+  @if (error(); as err) {
+    <div class="response-error">
+      <div class="response-error-header">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Request Failed
+      </div>
+      <div class="response-error-body">{{ err }}</div>
+    </div>
+  }
+
+  @if (response(); as res) {
+    <div class="response-section">
+      <div class="response-meta">
+        <div class="meta-card" [style.--meta-color]="getStatusColor(res.statusCode)">
+          <div class="meta-value">{{ res.statusCode }}</div>
+          <div class="meta-label">Status</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-value">{{ res.timingMs }}<span class="meta-unit">ms</span></div>
+          <div class="meta-label">Time</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-value">{{ formatSize(res.sizeBytes) }}</div>
+          <div class="meta-label">Size</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-value">{{ getHeaderCount(res.headers) }}</div>
+          <div class="meta-label">Headers</div>
+        </div>
+      </div>
+
+      <div class="response-headers">
+        <div class="section-label-row">
+          <span class="section-label">Response Headers</span>
+          <span class="section-count">{{ getHeaderCount(res.headers) }}</span>
+        </div>
+        <div class="headers-list">
+          @for (entry of getHeaderEntries(res.headers); track entry.key) {
+            <div class="header-row">
+              <span class="header-key">{{ entry.key }}</span>
+              <span class="header-value">{{ entry.value }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="response-body-section">
+        <div class="section-label-row">
+          <span class="section-label">Response Body</span>
+          <app-copy-button [value]="res.body" size="sm" />
+        </div>
+        <textarea class="response-body" [value]="res.body" readonly spellcheck="false" rows="10"></textarea>
+      </div>
+    </div>
+  }
+
+  @if (!url() && !response() && !error() && !loading()) {
+    <div class="empty-state">
+      <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <h3 class="empty-title">Enter a URL to get started</h3>
+      <p class="empty-desc">Type a URL above and click Send to make a request</p>
+    </div>
+  }
+</div>

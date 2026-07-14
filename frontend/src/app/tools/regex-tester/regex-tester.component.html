@@ -1,0 +1,101 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-regex)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Regex Tester</h1>
+      <p class="tool-page-desc">Teste expressões regulares com highlight em tempo real</p>
+    </div>
+  </div>
+
+  <div class="pattern-area">
+    <div class="pattern-row">
+      <span class="pattern-delim">/</span>
+      <input
+        class="pattern-input"
+        [value]="pattern()"
+        (input)="pattern.set($any($event.target).value)"
+        placeholder="Insira seu regex..."
+        spellcheck="false"
+      />
+      <span class="pattern-delim">/</span>
+      <span class="pattern-flags">{{ flagString() }}</span>
+    </div>
+    <div class="flags-row">
+      @for (fk of flagKeys; track fk.key) {
+        <button class="flag-btn" [class.active]="flags()[fk.key]" (click)="toggleFlag(fk.key)">
+          {{ fk.label }}
+        </button>
+      }
+    </div>
+    @if (error(); as e) {
+      <div class="regex-error">{{ e }}</div>
+    }
+  </div>
+
+  <div class="test-area">
+    <div class="tool-pane-label">Test String</div>
+    <textarea
+      class="test-input"
+      [value]="testString()"
+      (input)="testString.set($any($event.target).value)"
+      placeholder="Insira o texto de teste..."
+      spellcheck="false"
+      rows="5"
+    ></textarea>
+    @if (highlightedHtml(); as html) {
+      <div class="highlight-overlay" [innerHTML]="html"></div>
+    }
+  </div>
+
+  <div class="results-bar">
+    <span class="match-count" [class.no-matches]="matchCount() === 0">{{ matchCount() }} match{{ matchCount() === 1 ? '' : 'es' }} encontrado{{ matchCount() === 1 ? '' : 's' }}</span>
+    <div class="results-actions">
+      <button class="tool-action" (click)="setExample()">Exemplo</button>
+      <button class="tool-action ghost" (click)="clear()">Limpar</button>
+    </div>
+  </div>
+
+  @if (matches().length > 0) {
+    <div class="tool-section">
+      <div class="tool-section-header">
+        <h3 class="tool-section-title">Matches</h3>
+      </div>
+      <div class="matches-list">
+        @for (m of matches(); track m.index) {
+          <div class="match-card">
+            <div class="match-header">
+              <span class="match-number">#{{ $index + 1 }}</span>
+              <span class="match-pos">Pos {{ m.index }}</span>
+              <app-copy-button [value]="m.full" size="sm" label="Copy" />
+            </div>
+            <div class="match-value">"{{ m.full }}"</div>
+            @if (m.groups.length > 0) {
+              <div class="match-groups">
+                @for (g of m.groups; track $index) {
+                  <div class="match-group">
+                    <span class="match-group-label">Group {{ $index + 1 }}</span>
+                    <span class="match-group-value">{{ g !== undefined ? '"' + g + '"' : 'undefined' }}</span>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (!pattern() && !testString()) {
+    <div class="empty-state">
+      <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/>
+      </svg>
+      <h3 class="empty-title">Insira um padrão regex</h3>
+      <p class="empty-desc">Digite um pattern e texto de teste para ver os matches</p>
+    </div>
+  }
+</div>

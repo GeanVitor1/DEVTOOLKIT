@@ -1,0 +1,76 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-uuid)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"/><line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">UUID Generator</h1>
+      <p class="tool-page-desc">Gere UUIDs v1/v4/v7 em múltiplos formatos com geração em lote</p>
+    </div>
+  </div>
+
+  <div class="gen-controls">
+    <div class="gen-control">
+      <span class="sql-control-label">Versão</span>
+      <div class="sql-toggle">
+        <button class="sql-toggle-btn" [class.active]="version() === 'v1'" (click)="setVersion('v1')">v1</button>
+        <button class="sql-toggle-btn" [class.active]="version() === 'v4'" (click)="setVersion('v4')">v4</button>
+        <button class="sql-toggle-btn" [class.active]="version() === 'v7'" (click)="setVersion('v7')">v7</button>
+      </div>
+    </div>
+
+    <div class="gen-control">
+      <span class="sql-control-label">Formato</span>
+      <div class="sql-toggle">
+        <button class="sql-toggle-btn" [class.active]="format() === 'dashed'" (click)="setFormat('dashed')">dashed</button>
+        <button class="sql-toggle-btn" [class.active]="format() === 'curly'" (click)="setFormat('curly')">curly</button>
+        <button class="sql-toggle-btn" [class.active]="format() === 'upper'" (click)="setFormat('upper')">upper</button>
+      </div>
+    </div>
+
+    <div class="gen-control">
+      <span class="sql-control-label">Quantidade</span>
+      <input class="gen-qty" type="number" [value]="quantity()" (input)="setQuantity($any($event.target).value)" min="1" max="100" />
+    </div>
+
+    <div class="sql-control-spacer"></div>
+
+    <button class="gen-btn" (click)="generate()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Gerar
+    </button>
+  </div>
+
+  @if (uuids().length > 0) {
+    <div class="gen-actions">
+      <button class="tool-action" (click)="copyAll()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copiar Tudo
+      </button>
+      <button class="tool-action" (click)="download()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download .txt
+      </button>
+    </div>
+
+    <div class="uuid-list">
+      @for (uuid of uuids(); track trackByIndex($index)) {
+        <div class="uuid-row">
+          <span class="uuid-index">#{{ $index + 1 }}</span>
+          <code class="uuid-value">{{ uuid }}</code>
+          <app-copy-button [value]="uuid" size="sm" label="Copy" />
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"/><line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+      <h3 class="empty-title">Gere UUIDs únicos</h3>
+      <p class="empty-desc">Selecione as opções e clique em Gerar</p>
+    </div>
+  }
+</div>

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DevToolkit.API/DevToolkit.API.csproj" />
+    <Project Path="src/DevToolkit.Application/DevToolkit.Application.csproj" />
+    <Project Path="src/DevToolkit.Domain/DevToolkit.Domain.csproj" />
+    <Project Path="src/DevToolkit.Infrastructure/DevToolkit.Infrastructure.csproj" />
+  </Folder>
+</Solution>

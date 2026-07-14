@@ -1,0 +1,28 @@
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--dtk-radius-md);
+  font-size: var(--dtk-text-xs);
+  font-weight: 500;
+  color: var(--dtk-text-secondary);
+  background: var(--dtk-bg-elevated);
+  border: 1px solid var(--dtk-border);
+  transition: all var(--dtk-transition);
+
+  &:hover {
+    color: var(--dtk-text-primary);
+    background: var(--dtk-bg-hover);
+  }
+
+  &.copied {
+    color: var(--dtk-success);
+    border-color: var(--dtk-success);
+  }
+
+  &.btn-sm {
+    padding: 4px 8px;
+    font-size: 0.6875rem;
+  }
+}

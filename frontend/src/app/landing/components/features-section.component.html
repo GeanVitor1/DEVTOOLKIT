@@ -1,0 +1,17 @@
+<section class="features">
+  <div class="section-header">
+    <h2 class="section-title">Por que DevToolkit?</h2>
+    <p class="section-desc">Ferramentas profissionais, gratuitas e sem complicação</p>
+  </div>
+  <div class="features-grid">
+    @for (feature of features; track feature.title) {
+      <div class="feature-card">
+        <div class="feature-icon-wrap" [style.--card-color]="feature.color">
+          <div class="feature-icon" [innerHTML]="feature.icon | safeHtml"></div>
+        </div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-desc">{{ feature.description }}</p>
+      </div>
+    }
+  </div>
+</section>

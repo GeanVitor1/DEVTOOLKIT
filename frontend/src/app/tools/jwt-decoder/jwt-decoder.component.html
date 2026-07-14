@@ -1,0 +1,111 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-jwt)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">JWT Decoder</h1>
+      <p class="tool-page-desc">Decodifique e inspecione tokens JWT — 100% client-side</p>
+    </div>
+  </div>
+
+  <div class="token-area">
+    <div class="tool-pane-label">Token</div>
+    <textarea
+      class="token-input"
+      [value]="token()"
+      (input)="token.set($any($event.target).value)"
+      placeholder="Cole seu JWT aqui..."
+      spellcheck="false"
+      rows="3"
+    ></textarea>
+    <div class="token-actions">
+      <button class="tool-action" (click)="paste()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Colar
+      </button>
+      <button class="tool-action" (click)="clear()">Limpar</button>
+      <button class="tool-action" (click)="setExample()">Exemplo</button>
+      <span class="tool-action-spacer"></span>
+      <span class="token-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        100% client-side
+      </span>
+    </div>
+  </div>
+
+  @if (decoded(); as d) {
+    @if ('error' in d) {
+      <div class="error-banner">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        {{ d.error }}
+      </div>
+    } @else {
+      <div class="panels">
+        <div class="jwt-panel" style="--panel-color: var(--dtk-http)">
+          <div class="jwt-panel-label">HEADER</div>
+          <div class="jwt-panel-content">
+            @for (entry of getHeaderEntries(d.header); track entry.key) {
+              <div class="claim-row">
+                <span class="claim-key">{{ entry.key }}</span>
+                <span class="claim-value string">"{{ entry.value }}"</span>
+              </div>
+            }
+          </div>
+          <div class="jwt-panel-actions">
+            <app-copy-button [value]="headerJson()" size="sm" label="Copy" />
+          </div>
+        </div>
+
+        <div class="jwt-panel" style="--panel-color: var(--dtk-json)">
+          <div class="jwt-panel-label">PAYLOAD</div>
+          <div class="jwt-panel-content">
+            @for (entry of payloadEntries(); track entry.key) {
+              <div class="claim-row">
+                <span class="claim-key">{{ entry.key }}</span>
+                <span class="claim-value">{{ entry.display }}</span>
+              </div>
+            }
+          </div>
+          <div class="jwt-panel-actions">
+            <app-copy-button [value]="payloadJson()" size="sm" label="Copy" />
+          </div>
+        </div>
+
+        <div class="jwt-panel" style="--panel-color: var(--dtk-sql)">
+          <div class="jwt-panel-label">SIGNATURE</div>
+          <div class="jwt-panel-content">
+            <div class="signature-value">{{ d.signature.substring(0, 40) }}...</div>
+            @if (verifyStatus(); as vs) {
+              <div class="verify-status" [class.verify-ok]="vs.ok" [class.verify-fail]="!vs.ok">{{ vs.text }}</div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="timer-bar" [class.expired]="isExpired()">
+        @if (remaining(); as r) {
+          @if (r.expired) {
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Token expirado
+          } @else {
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Válido — Expira em {{ r.text }}
+          }
+        } @else {
+          <span class="timer-none">Sem claim de expiração (exp)</span>
+        }
+      </div>
+    }
+  } @else {
+    <div class="empty-state">
+      <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      <h3 class="empty-title">Cole um token JWT</h3>
+      <p class="empty-desc">Insira o token acima ou clique em "Exemplo" para testar</p>
+    </div>
+  }
+</div>
