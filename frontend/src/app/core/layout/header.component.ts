@@ -10,6 +10,13 @@ const toolNames: Record<string, { name: string; color: string }> = {
   'sql-formatter': { name: 'SQL Formatter', color: 'var(--dtk-sql)' },
   'regex-tester': { name: 'Regex Tester', color: 'var(--dtk-regex)' },
   'uuid-generator': { name: 'UUID Generator', color: 'var(--dtk-uuid)' },
+  'hash-generator': { name: 'Hash Generator', color: 'var(--dtk-hash)' },
+  'base64-codec': { name: 'Base64 Codec', color: 'var(--dtk-base64)' },
+  'markdown-preview': { name: 'Markdown Preview', color: 'var(--dtk-markdown)' },
+  'url-codec': { name: 'URL Encoder', color: 'var(--dtk-url)' },
+  'timestamp-converter': { name: 'Timestamp', color: 'var(--dtk-timestamp)' },
+  'color-converter': { name: 'Color Converter', color: 'var(--dtk-color)' },
+  'cron-builder': { name: 'Cron Builder', color: 'var(--dtk-cron)' },
 };
 
 @Component({

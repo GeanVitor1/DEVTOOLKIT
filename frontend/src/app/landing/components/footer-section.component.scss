@@ -1,25 +1,10 @@
 .footer {
   position: relative;
   padding: var(--dtk-space-8) var(--dtk-space-6) var(--dtk-space-6);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 5%;
-    right: 5%;
-    height: 1px;
-    background: linear-gradient(90deg,
-      transparent 0%,
-      color-mix(in srgb, var(--dtk-border-focus) 15%, transparent) 30%,
-      color-mix(in srgb, var(--dtk-border-focus) 15%, transparent) 70%,
-      transparent 100%
-    );
-  }
 }
 
 .footer-content {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -38,6 +23,12 @@
   font-weight: 700;
   color: var(--dtk-text-primary);
   margin-bottom: var(--dtk-space-3);
+}
+
+.footer-logo-bracket {
+  font-family: var(--dtk-font-mono);
+  color: var(--dtk-border-focus);
+  font-size: var(--dtk-text-xl);
 }
 
 .footer-desc {
@@ -80,7 +71,7 @@
 }
 
 .footer-bottom {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: var(--dtk-space-6) auto 0;
   padding-top: var(--dtk-space-5);
   border-top: 1px solid var(--dtk-border);

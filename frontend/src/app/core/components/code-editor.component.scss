@@ -1,9 +1,14 @@
 .editor-wrapper {
   position: relative;
   border: 1px solid var(--dtk-border);
-  border-radius: var(--dtk-radius-md);
+  border-radius: var(--dtk-radius-lg);
   overflow: hidden;
   background: var(--dtk-bg-input);
+  transition: border-color var(--dtk-transition-fast);
+
+  &:focus-within {
+    border-color: var(--dtk-border-focus);
+  }
 }
 
 .editor-textarea {
@@ -12,7 +17,7 @@
   padding: 16px;
   font-family: var(--dtk-font-mono);
   font-size: var(--dtk-text-sm);
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--dtk-text-primary);
   background: transparent;
   border: none;

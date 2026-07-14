@@ -7,16 +7,16 @@
   background: var(--dtk-bg-base);
 }
 
-.landing-section-divider {
+.landing-divider {
   position: relative;
   height: 1px;
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 960px;
   background: linear-gradient(90deg,
     transparent 0%,
     var(--dtk-border) 15%,
     var(--dtk-border) 85%,
     transparent 100%
   );
-  opacity: 0.3;
+  opacity: 0.5;
 }

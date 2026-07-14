@@ -1,35 +1,36 @@
 <section id="tools" class="showcase">
   <div class="showcase-header">
-    <h2 class="showcase-title">Ferramentas que <span class="showcase-title-accent">entregam resultado</span></h2>
-    <p class="showcase-desc">Seis ferramentas essenciais, cada uma feita para resolver um problema real do seu dia a dia como desenvolvedor.</p>
+    <span class="showcase-kicker">The complete set</span>
+    <h2 class="showcase-title">Six tools, <span class="showcase-title-em">one toolkit</span></h2>
+    <p class="showcase-desc">Essential tools for every developer. Each one built to solve a real problem.</p>
   </div>
 
-  @for (tool of tools; track tool.name; let i = $index) {
-    <div class="tool-section" [style.--tool-clr]="tool.color" [class.reverse]="i % 2 !== 0" [style.animation-delay]="i * 0.12 + 's'">
-      <div class="tool-info">
-        <div class="tool-icon-wrap">
-          <div class="tool-icon" [innerHTML]="tool.icon | safeHtml"></div>
+  <div class="showcase-list">
+    @for (tool of tools; track tool.name; let i = $index) {
+      <div class="showcase-item" [style.--tool-clr]="tool.color" [class.showcase-item-reverse]="i % 2 !== 0">
+        <div class="showcase-item-content">
+          <div class="showcase-item-number">{{ ('0' + (i + 1)).slice(-2) }}</div>
+          <div class="showcase-item-icon">
+            <div [innerHTML]="tool.icon | safeHtml"></div>
+          </div>
+          <h3 class="showcase-item-name">{{ tool.name }}</h3>
+          <p class="showcase-item-tagline">{{ tool.tagline }}</p>
+          <p class="showcase-item-desc">{{ tool.description }}</p>
+          <div class="showcase-item-features">
+            @for (feat of tool.features; track feat) {
+              <span class="showcase-item-feature">{{ feat }}</span>
+            }
+          </div>
+          <a class="showcase-item-cta" [routerLink]="tool.route">
+            Open {{ tool.name }}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
         </div>
-        <h3 class="tool-name">{{ tool.name }}</h3>
-        <p class="tool-tagline">{{ tool.tagline }}</p>
-        <p class="tool-description">{{ tool.description }}</p>
-        <div class="tool-features">
-          @for (feat of tool.features; track feat) {
-            <div class="tool-feature">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              {{ feat }}
-            </div>
-          }
+        <div class="showcase-item-preview">
+          <div class="preview-card" [innerHTML]="tool.preview | safeHtml"></div>
+          <div class="preview-shimmer"></div>
         </div>
-        <a class="tool-cta" [routerLink]="tool.route">
-          Abrir {{ tool.name }}
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
       </div>
-      <div class="tool-preview-wrap">
-        <div class="tool-preview" [innerHTML]="tool.preview | safeHtml"></div>
-        <div class="preview-shimmer"></div>
-      </div>
-    </div>
-  }
+    }
+  </div>
 </section>

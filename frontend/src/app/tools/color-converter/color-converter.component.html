@@ -1,0 +1,79 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-color)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/>
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Color Converter</h1>
+      <p class="tool-page-desc">Converta cores entre HEX, RGB e HSL</p>
+    </div>
+  </div>
+
+  <div class="color-main">
+    <div class="color-preview" [style.background]="hex()"></div>
+
+    <div class="color-formats">
+      <div class="color-format-card">
+        <div class="color-format-header">
+          <span class="color-format-label">HEX</span>
+          <app-copy-button [value]="hex()" size="sm" label="Copy" />
+        </div>
+        <div class="color-input-row">
+          <input class="color-hex-input" type="text" [value]="hex()" (input)="hex.set($any($event.target).value); updateFromHex()" />
+          <input class="color-picker" type="color" [value]="hex()" (input)="setHexFromPicker($event)" />
+        </div>
+      </div>
+
+      <div class="color-format-card">
+        <div class="color-format-header">
+          <span class="color-format-label">RGB</span>
+          <app-copy-button [value]="cssColor" size="sm" label="Copy" />
+        </div>
+        <div class="color-sliders">
+          <div class="color-slider-row">
+            <label class="color-slider-label" style="color: #ef4444">R</label>
+            <input class="color-range" type="range" min="0" max="255" [value]="r()" (input)="r.set(+$any($event.target).value); updateFromRGB()" />
+            <span class="color-slider-value">{{ r() }}</span>
+          </div>
+          <div class="color-slider-row">
+            <label class="color-slider-label" style="color: #22c55e">G</label>
+            <input class="color-range" type="range" min="0" max="255" [value]="g()" (input)="g.set(+$any($event.target).value); updateFromRGB()" />
+            <span class="color-slider-value">{{ g() }}</span>
+          </div>
+          <div class="color-slider-row">
+            <label class="color-slider-label" style="color: #3b82f6">B</label>
+            <input class="color-range" type="range" min="0" max="255" [value]="b()" (input)="b.set(+$any($event.target).value); updateFromRGB()" />
+            <span class="color-slider-value">{{ b() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-format-card">
+        <div class="color-format-header">
+          <span class="color-format-label">HSL</span>
+          <app-copy-button [value]="hslColor" size="sm" label="Copy" />
+        </div>
+        <div class="color-sliders">
+          <div class="color-slider-row">
+            <label class="color-slider-label">H</label>
+            <input class="color-range" type="range" min="0" max="360" [value]="h()" (input)="h.set(+$any($event.target).value); updateFromHSL()" />
+            <span class="color-slider-value">{{ h() }}°</span>
+          </div>
+          <div class="color-slider-row">
+            <label class="color-slider-label">S</label>
+            <input class="color-range" type="range" min="0" max="100" [value]="s()" (input)="s.set(+$any($event.target).value); updateFromHSL()" />
+            <span class="color-slider-value">{{ s() }}%</span>
+          </div>
+          <div class="color-slider-row">
+            <label class="color-slider-label">L</label>
+            <input class="color-range" type="range" min="0" max="100" [value]="l()" (input)="l.set(+$any($event.target).value); updateFromHSL()" />
+            <span class="color-slider-value">{{ l() }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

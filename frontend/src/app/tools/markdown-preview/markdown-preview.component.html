@@ -1,0 +1,38 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-markdown)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>
+        <path d="M7 15V9l3 4 3-4v6"/>
+        <path d="M17 12h-2l2-3-2-3"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Markdown Preview</h1>
+      <p class="tool-page-desc">Visualize Markdown em tempo real com syntax highlighting</p>
+    </div>
+  </div>
+
+  <div class="md-panels">
+    <div class="md-panel">
+      <div class="md-panel-header">
+        <span class="md-panel-label">Editor</span>
+        <span class="md-panel-hint">Markdown suportado</span>
+      </div>
+      <textarea
+        class="md-editor"
+        [value]="input()"
+        (input)="input.set($any($event.target).value)"
+        placeholder="Escreva seu Markdown aqui..."
+        spellcheck="false"
+      ></textarea>
+    </div>
+
+    <div class="md-panel">
+      <div class="md-panel-header">
+        <span class="md-panel-label">Preview</span>
+      </div>
+      <div class="md-preview" [innerHTML]="preview()"></div>
+    </div>
+  </div>
+</div>

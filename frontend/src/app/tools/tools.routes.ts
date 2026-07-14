@@ -12,6 +12,13 @@ export const toolRoutes: Routes = [
       { path: 'sql-formatter', loadComponent: () => import('./sql-formatter/sql-formatter.component').then(c => c.SqlFormatterComponent) },
       { path: 'regex-tester', loadComponent: () => import('./regex-tester/regex-tester.component').then(c => c.RegexTesterComponent) },
       { path: 'uuid-generator', loadComponent: () => import('./uuid-generator/uuid-generator.component').then(c => c.UuidGeneratorComponent) },
+      { path: 'hash-generator', loadComponent: () => import('./hash-generator/hash-generator.component').then(c => c.HashGeneratorComponent) },
+      { path: 'base64-codec', loadComponent: () => import('./base64-codec/base64-codec.component').then(c => c.Base64CodecComponent) },
+      { path: 'markdown-preview', loadComponent: () => import('./markdown-preview/markdown-preview.component').then(c => c.MarkdownPreviewComponent) },
+      { path: 'url-codec', loadComponent: () => import('./url-codec/url-codec.component').then(c => c.UrlCodecComponent) },
+      { path: 'timestamp-converter', loadComponent: () => import('./timestamp-converter/timestamp-converter.component').then(c => c.TimestampConverterComponent) },
+      { path: 'color-converter', loadComponent: () => import('./color-converter/color-converter.component').then(c => c.ColorConverterComponent) },
+      { path: 'cron-builder', loadComponent: () => import('./cron-builder/cron-builder.component').then(c => c.CronBuilderComponent) },
       { path: '', redirectTo: 'http-client', pathMatch: 'full' }
     ]
   }

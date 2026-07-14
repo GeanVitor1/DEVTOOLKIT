@@ -1,0 +1,49 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-cron)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Cron Builder</h1>
+      <p class="tool-page-desc">Construa expressões cron com preview das próximas execuções</p>
+    </div>
+  </div>
+
+  <div class="cron-expression">
+    <code class="cron-value">{{ expression() }}</code>
+    <app-copy-button [value]="expression()" size="sm" label="Copy" />
+  </div>
+
+  <div class="cron-desc">{{ description() }}</div>
+
+  <div class="cron-fields">
+    @for (field of fields(); track field.label; let i = $index) {
+      <div class="cron-field">
+        <label class="cron-field-label">{{ field.label }}</label>
+        <select
+          class="cron-select"
+          [value]="field.value"
+          (change)="setField(i, $any($event.target).value)"
+        >
+          @for (opt of field.options; track opt) {
+            <option [value]="opt">{{ i === 4 ? getDowLabel(opt) : opt }}</option>
+          }
+        </select>
+      </div>
+    }
+  </div>
+
+  <div class="cron-presets">
+    <span class="cron-presets-label">Presets</span>
+    <div class="cron-presets-grid">
+      @for (preset of presets(); track preset.value) {
+        <button class="cron-preset-btn" (click)="applyPreset(preset.value)">
+          {{ preset.label }}
+          <code class="cron-preset-value">{{ preset.value }}</code>
+        </button>
+      }
+    </div>
+  </div>
+</div>

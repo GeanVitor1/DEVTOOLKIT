@@ -1,0 +1,80 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-hash)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3l-4 18"/><path d="M14 3l4 18"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Hash Generator</h1>
+      <p class="tool-page-desc">Gere hashes SHA-1, SHA-256 e SHA-512 de textos ou dados hexadecimais</p>
+    </div>
+  </div>
+
+  <div class="hash-input-section">
+    <div class="hash-input-mode">
+      <button class="sql-toggle-btn" [class.active]="inputMode() === 'text'" (click)="inputMode.set('text')">Texto</button>
+      <button class="sql-toggle-btn" [class.active]="inputMode() === 'hex'" (click)="inputMode.set('hex')">Hex</button>
+    </div>
+    <textarea
+      class="hash-input"
+      [placeholder]="inputMode() === 'text' ? 'Digite o texto para gerar o hash...' : 'Cole os bytes em hexadecimal...'"
+      [value]="input()"
+      (input)="input.set($any($event.target).value)"
+      rows="4"
+    ></textarea>
+  </div>
+
+  <div class="hash-controls">
+    <div class="hash-algos">
+      <span class="sql-control-label">Algoritmos</span>
+      <div class="sql-toggle">
+        @for (algo of allAlgorithms; track algo) {
+          <button
+            class="sql-toggle-btn"
+            [class.active]="isAlgoSelected(algo)"
+            (click)="toggleAlgo(algo)"
+          >{{ algo }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="sql-control-spacer"></div>
+
+    <button class="gen-btn" (click)="generate()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3l-4 18"/><path d="M14 3l4 18"/></svg>
+      Gerar Hash
+    </button>
+  </div>
+
+  @if (results().length > 0) {
+    <div class="gen-actions">
+      <button class="tool-action" (click)="copyAll()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copiar Todos
+      </button>
+      <button class="tool-action" (click)="clear()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Limpar
+      </button>
+    </div>
+
+    <div class="hash-results">
+      @for (result of results(); track result.algo) {
+        <div class="hash-result-row">
+          <span class="hash-algo-label">{{ result.algo }}</span>
+          <code class="hash-value">{{ result.hash }}</code>
+          <app-copy-button [value]="result.hash" size="sm" label="Copy" />
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3l-4 18"/><path d="M14 3l4 18"/>
+      </svg>
+      <h3 class="empty-title">Gere hashes criptográficos</h3>
+      <p class="empty-desc">Digite um texto e selecione os algoritmos para gerar os hashes</p>
+    </div>
+  }
+</div>

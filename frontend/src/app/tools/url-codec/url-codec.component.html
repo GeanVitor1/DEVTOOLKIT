@@ -1,0 +1,73 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-url)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">URL Encoder / Decoder</h1>
+      <p class="tool-page-desc">Codifique e decodifique URLs e componentes de URL</p>
+    </div>
+  </div>
+
+  <div class="codec-controls">
+    <div class="sql-toggle">
+      <button class="sql-toggle-btn" [class.active]="mode() === 'encode'" (click)="mode.set('encode'); process()">Encode</button>
+      <button class="sql-toggle-btn" [class.active]="mode() === 'decode'" (click)="mode.set('decode'); process()">Decode</button>
+    </div>
+
+    @if (mode() === 'encode') {
+      <div class="sql-toggle">
+        <button class="sql-toggle-btn" [class.active]="encodeType() === 'component'" (click)="encodeType.set('component'); process()">Component</button>
+        <button class="sql-toggle-btn" [class.active]="encodeType() === 'full'" (click)="encodeType.set('full'); process()">Full URI</button>
+      </div>
+    }
+
+    <div class="sql-control-spacer"></div>
+
+    <button class="tool-action" (click)="parseQueryString()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Extrair Params
+    </button>
+
+    <button class="codec-swap" (click)="swap()" title="Inverter">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+    </button>
+  </div>
+
+  <div class="codec-panels">
+    <div class="codec-panel">
+      <div class="codec-panel-header">
+        <span class="codec-panel-label">Entrada</span>
+        <button class="tool-action-sm" (click)="clear()">Limpar</button>
+      </div>
+      <textarea
+        class="codec-textarea"
+        placeholder="Cole uma URL ou texto para codificar/decodificar..."
+        [value]="input()"
+        (input)="input.set($any($event.target).value); process()"
+        rows="6"
+      ></textarea>
+    </div>
+
+    <div class="codec-panel">
+      <div class="codec-panel-header">
+        <span class="codec-panel-label">Saída</span>
+        @if (output()) {
+          <app-copy-button [value]="output()" size="sm" label="Copy" />
+        }
+      </div>
+      <div class="codec-output" [class.has-error]="error()">
+        @if (error()) {
+          <span class="codec-error">{{ error() }}</span>
+        } @else if (output()) {
+          <code class="codec-output-text">{{ output() }}</code>
+        } @else {
+          <span class="codec-placeholder">O resultado aparecerá aqui...</span>
+        }
+      </div>
+    </div>
+  </div>
+</div>

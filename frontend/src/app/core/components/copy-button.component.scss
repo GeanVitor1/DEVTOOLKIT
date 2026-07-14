@@ -18,7 +18,7 @@
 
   &.copied {
     color: var(--dtk-success);
-    border-color: var(--dtk-success);
+    border-color: color-mix(in srgb, var(--dtk-success) 30%, transparent);
   }
 
   &.btn-sm {

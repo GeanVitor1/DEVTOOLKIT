@@ -1,14 +1,24 @@
-<div class="http-tool">
+<div class="http-tool" style="--page-color: var(--dtk-http)">
+  <div class="tool-page-header">
+    <div class="tool-page-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">HTTP Client</h1>
+      <p class="tool-page-desc">Make HTTP requests like a professional. Supports GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS.</p>
+    </div>
+  </div>
+
   <div class="url-bar">
-    <select class="method-select" [value]="method()" (change)="method.set($any($event.target).value)">
+    <select class="method-select" [ngModel]="method()" (ngModelChange)="method.set($event)">
       @for (m of methods; track m) {
         <option [value]="m">{{ m }}</option>
       }
     </select>
     <input
       class="url-input"
-      [value]="url()"
-      (input)="url.set($any($event.target).value)"
+      [ngModel]="url()"
+      (ngModelChange)="url.set($event)"
       placeholder="Enter request URL..."
       (keydown)="($event.key === 'Enter') && send()"
     />
@@ -44,8 +54,8 @@
         @for (row of headers(); track trackByIndex($index)) {
           <div class="kv-row">
             <input type="checkbox" class="kv-check" [checked]="row.enabled" (change)="row.enabled = !row.enabled; headers.update(h => [...h])" />
-            <input class="kv-input" [value]="row.key" (input)="row.key = $any($event.target).value; headers.update(h => [...h])" placeholder="Header name" />
-            <input class="kv-input" [value]="row.value" (input)="row.value = $any($event.target).value; headers.update(h => [...h])" placeholder="Value" />
+            <input class="kv-input" [ngModel]="row.key" (ngModelChange)="row.key = $event; headers.update(h => [...h])" placeholder="Header name" />
+            <input class="kv-input" [ngModel]="row.value" (ngModelChange)="row.value = $event; headers.update(h => [...h])" placeholder="Value" />
             <button class="kv-remove" (click)="removeHeader($index)" aria-label="Remove header">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
@@ -69,8 +79,8 @@
         @for (row of params(); track trackByIndex($index)) {
           <div class="kv-row">
             <input type="checkbox" class="kv-check" [checked]="row.enabled" (change)="row.enabled = !row.enabled; params.update(p => [...p])" />
-            <input class="kv-input" [value]="row.key" (input)="row.key = $any($event.target).value; headers.update(h => [...h])" placeholder="Param name" />
-            <input class="kv-input" [value]="row.value" (input)="row.value = $any($event.target).value; headers.update(h => [...h])" placeholder="Value" />
+            <input class="kv-input" [ngModel]="row.key" (ngModelChange)="row.key = $event; params.update(p => [...p])" placeholder="Param name" />
+            <input class="kv-input" [ngModel]="row.value" (ngModelChange)="row.value = $event; params.update(p => [...p])" placeholder="Value" />
             <button class="kv-remove" (click)="removeParam($index)" aria-label="Remove param">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
@@ -85,7 +95,7 @@
 
     @if (activeTab() === 'auth') {
       <div class="auth-panel">
-        <select class="auth-select" [value]="authType()" (change)="authType.set($any($event.target).value)">
+        <select class="auth-select" [ngModel]="authType()" (ngModelChange)="authType.set($event)">
           @for (at of authTypes; track at.value) {
             <option [value]="at.value">{{ at.label }}</option>
           }
@@ -93,8 +103,8 @@
         @if (authType() !== 'none') {
           <input
             class="auth-input"
-            [value]="authValue()"
-            (input)="authValue.set($any($event.target).value)"
+            [ngModel]="authValue()"
+            (ngModelChange)="authValue.set($event)"
             [placeholder]="authType() === 'bearer' ? 'Enter token...' : authType() === 'basic' ? 'username:password' : 'Enter API key...'"
           />
         }
@@ -109,8 +119,8 @@
         </div>
         <textarea
           class="body-editor"
-          [value]="bodyContent()"
-          (input)="bodyContent.set($any($event.target).value)"
+          [ngModel]="bodyContent()"
+          (ngModelChange)="bodyContent.set($event)"
           placeholder='{"key": "value"}'
           spellcheck="false"
           rows="8"

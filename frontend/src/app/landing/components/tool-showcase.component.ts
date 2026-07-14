@@ -175,19 +175,15 @@ export class ToolShowcaseComponent {
     afterNextRender(() => {
       const sections = document.querySelectorAll<HTMLElement>('.tool-section');
       sections.forEach((section, i) => {
-        const obs = new IntersectionObserver((entries) => {
-          if (entries[0]?.isIntersecting) {
-            obs.disconnect();
-            this.startDemo(section);
-          }
-        }, { threshold: 0.3 });
         if (i === 0) {
-          const firstEntry = { isIntersecting: true } as IntersectionObserverEntry;
-          setTimeout(() => {
-            obs.disconnect();
-            this.startDemo(section);
-          }, 800);
+          setTimeout(() => this.startDemo(section), 800);
         } else {
+          const obs = new IntersectionObserver((entries) => {
+            if (entries[0]?.isIntersecting) {
+              obs.disconnect();
+              this.startDemo(section);
+            }
+          }, { threshold: 0.3 });
           obs.observe(section);
         }
       });
@@ -195,7 +191,7 @@ export class ToolShowcaseComponent {
   }
 
   private async startDemo(container: HTMLElement) {
-    const preview = container.querySelector<HTMLElement>('.tool-preview');
+    const preview = container.querySelector<HTMLElement>('.preview-card');
     if (!preview) return;
 
     const lines = preview.querySelectorAll<HTMLElement>('.preview-line');

@@ -1,0 +1,219 @@
+.tool-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dtk-space-5);
+  max-width: 1400px;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.tool-page-header {
+  display: flex;
+  align-items: center;
+  gap: var(--dtk-space-5);
+}
+
+.tool-page-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--dtk-radius-xl);
+  background: color-mix(in srgb, var(--page-color) 10%, transparent);
+  color: var(--page-color);
+  flex-shrink: 0;
+
+  :deep(svg) { width: 28px; height: 28px; }
+}
+
+.tool-page-info { display: flex; flex-direction: column; gap: 4px; }
+
+.tool-page-title {
+  font-size: var(--dtk-text-3xl);
+  font-weight: 700;
+  color: var(--dtk-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.tool-page-desc {
+  font-size: var(--dtk-text-base);
+  color: var(--dtk-text-muted);
+}
+
+.md-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--dtk-space-4);
+  height: calc(100dvh - var(--dtk-header-height) - 180px);
+  min-height: 400px;
+}
+
+.md-panel {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--dtk-border);
+  border-radius: var(--dtk-radius-xl);
+  overflow: hidden;
+  background: var(--dtk-bg-surface);
+}
+
+.md-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--dtk-space-3) var(--dtk-space-4);
+  border-bottom: 1px solid var(--dtk-border);
+}
+
+.md-panel-label {
+  font-size: var(--dtk-text-sm);
+  font-weight: 500;
+  color: var(--dtk-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.md-panel-hint {
+  font-size: var(--dtk-text-xs);
+  color: var(--dtk-text-muted);
+}
+
+.md-editor {
+  flex: 1;
+  width: 100%;
+  padding: var(--dtk-space-4);
+  border: none;
+  background: transparent;
+  color: var(--dtk-text-primary);
+  font-family: var(--dtk-font-mono);
+  font-size: var(--dtk-text-sm);
+  line-height: 1.7;
+  resize: none;
+  outline: none;
+  tab-size: 2;
+
+  &::placeholder { color: var(--dtk-text-muted); }
+}
+
+.md-preview {
+  flex: 1;
+  padding: var(--dtk-space-5);
+  overflow-y: auto;
+  color: var(--dtk-text-primary);
+  font-size: var(--dtk-text-base);
+  line-height: 1.7;
+
+  :deep(h1) {
+    font-size: var(--dtk-text-3xl);
+    font-weight: 700;
+    margin-bottom: var(--dtk-space-4);
+    letter-spacing: -0.02em;
+  }
+
+  :deep(h2) {
+    font-size: var(--dtk-text-2xl);
+    font-weight: 600;
+    margin-top: var(--dtk-space-6);
+    margin-bottom: var(--dtk-space-3);
+    letter-spacing: -0.01em;
+  }
+
+  :deep(h3) {
+    font-size: var(--dtk-text-xl);
+    font-weight: 600;
+    margin-top: var(--dtk-space-5);
+    margin-bottom: var(--dtk-space-2);
+  }
+
+  :deep(p) {
+    margin-bottom: var(--dtk-space-3);
+  }
+
+  :deep(strong) {
+    font-weight: 600;
+    color: var(--dtk-text-primary);
+  }
+
+  :deep(em) {
+    font-style: italic;
+    color: var(--dtk-text-secondary);
+  }
+
+  :deep(del) {
+    text-decoration: line-through;
+    color: var(--dtk-text-muted);
+  }
+
+  :deep(a) {
+    color: var(--dtk-markdown);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover { opacity: 0.8; }
+  }
+
+  :deep(blockquote) {
+    border-left: 3px solid var(--dtk-markdown);
+    padding-left: var(--dtk-space-4);
+    margin: var(--dtk-space-4) 0;
+    color: var(--dtk-text-secondary);
+    font-style: italic;
+  }
+
+  :deep(ul) {
+    list-style: disc;
+    padding-left: var(--dtk-space-5);
+    margin: var(--dtk-space-3) 0;
+  }
+
+  :deep(li) {
+    margin-bottom: var(--dtk-space-2);
+  }
+
+  :deep(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--dtk-space-4) 0;
+  }
+
+  :deep(td) {
+    padding: var(--dtk-space-2) var(--dtk-space-3);
+    border: 1px solid var(--dtk-border);
+    text-align: left;
+  }
+
+  :deep(.md-code) {
+    background: var(--dtk-bg-input);
+    border: 1px solid var(--dtk-border);
+    border-radius: var(--dtk-radius-md);
+    padding: var(--dtk-space-4);
+    margin: var(--dtk-space-3) 0;
+    overflow-x: auto;
+    font-family: var(--dtk-font-mono);
+    font-size: var(--dtk-text-sm);
+    line-height: 1.6;
+  }
+
+  :deep(.md-inline) {
+    background: var(--dtk-bg-elevated);
+    padding: 2px 6px;
+    border-radius: var(--dtk-radius-sm);
+    font-family: var(--dtk-font-mono);
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 768px) {
+  .md-panels {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .md-editor {
+    min-height: 200px;
+  }
+
+  .md-preview {
+    min-height: 200px;
+  }
+}

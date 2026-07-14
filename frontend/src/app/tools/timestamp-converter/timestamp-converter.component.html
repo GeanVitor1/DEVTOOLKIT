@@ -1,0 +1,78 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-timestamp)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Timestamp Converter</h1>
+      <p class="tool-page-desc">Converta timestamps Unix para datas legíveis e vice-versa</p>
+    </div>
+  </div>
+
+  <div class="ts-now-bar">
+    <span class="ts-now-label">Agora</span>
+    <code class="ts-now-value">{{ now() }}</code>
+    <app-copy-button [value]="now()" size="sm" label="Copy" />
+  </div>
+
+  <div class="ts-panels">
+    <div class="ts-panel">
+      <div class="ts-panel-header">
+        <span class="ts-panel-label">Timestamp Unix</span>
+        <button class="tool-action-sm" (click)="useNow()">Usar Agora</button>
+      </div>
+      <div class="ts-input-row">
+        <input
+          class="ts-input"
+          type="text"
+          placeholder="Ex: 1700000000"
+          [value]="timestampInput()"
+          (input)="timestampInput.set($any($event.target).value)"
+          (keyup.enter)="convertTimestamp()"
+        />
+        <button class="ts-convert-btn" (click)="convertTimestamp()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Converter
+        </button>
+      </div>
+    </div>
+
+    <div class="ts-panel">
+      <div class="ts-panel-header">
+        <span class="ts-panel-label">Data / Hora</span>
+      </div>
+      <div class="ts-input-row">
+        <input
+          class="ts-input"
+          type="text"
+          [placeholder]="formatNowDate()"
+          [value]="dateInput()"
+          (input)="dateInput.set($any($event.target).value)"
+          (keyup.enter)="convertDate()"
+        />
+        <button class="ts-convert-btn" (click)="convertDate()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Converter
+        </button>
+      </div>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="ts-error">{{ error() }}</div>
+  }
+
+  @if (results().length > 0) {
+    <div class="ts-results">
+      @for (result of results(); track result.label) {
+        <div class="ts-result-row">
+          <span class="ts-result-label">{{ result.label }}</span>
+          <code class="ts-result-value">{{ result.value }}</code>
+          <app-copy-button [value]="result.value" size="sm" label="Copy" />
+        </div>
+      }
+    </div>
+  }
+</div>
