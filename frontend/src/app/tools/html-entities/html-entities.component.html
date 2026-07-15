@@ -1,0 +1,65 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-html)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">HTML Entities Codec</h1>
+      <p class="tool-page-desc">Codifique e decodifique caracteres HTML especiais</p>
+    </div>
+  </div>
+
+  <div class="codec-controls">
+    <div class="sql-toggle">
+      <button class="sql-toggle-btn" [class.active]="mode() === 'encode'" (click)="mode.set('encode'); process()">Encode</button>
+      <button class="sql-toggle-btn" [class.active]="mode() === 'decode'" (click)="mode.set('decode'); process()">Decode</button>
+    </div>
+
+    <div class="sql-control-spacer"></div>
+
+    <button class="codec-swap" (click)="swap()" title="Inverter entrada/saída">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+    </button>
+
+    <button class="gen-btn" (click)="process()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      {{ mode() === 'encode' ? 'Codificar' : 'Decodificar' }}
+    </button>
+  </div>
+
+  <div class="codec-panels">
+    <div class="codec-panel">
+      <div class="codec-panel-header">
+        <span class="codec-panel-label">{{ mode() === 'encode' ? 'Texto de entrada' : 'HTML entities de entrada' }}</span>
+        <button class="tool-action-sm" (click)="clear()">Limpar</button>
+      </div>
+      <textarea
+        class="codec-textarea"
+        [placeholder]="mode() === 'encode' ? 'Digite o texto para codificar...' : 'Cole as HTML entities para decodificar...'"
+        [value]="input()"
+        (input)="input.set($any($event.target).value); process()"
+        rows="8"
+      ></textarea>
+    </div>
+
+    <div class="codec-panel">
+      <div class="codec-panel-header">
+        <span class="codec-panel-label">{{ mode() === 'encode' ? 'HTML entities geradas' : 'Texto decodificado' }}</span>
+        @if (output()) {
+          <app-copy-button [value]="output()" size="sm" label="Copy" />
+        }
+      </div>
+      <div class="codec-output" [class.has-error]="error()">
+        @if (error()) {
+          <span class="codec-error">{{ error() }}</span>
+        } @else if (output()) {
+          <code class="codec-output-text">{{ output() }}</code>
+        } @else {
+          <span class="codec-placeholder">O resultado aparecerá aqui...</span>
+        }
+      </div>
+    </div>
+  </div>
+</div>

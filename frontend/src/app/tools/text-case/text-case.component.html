@@ -1,0 +1,50 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-text-case)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Text Case Converter</h1>
+      <p class="tool-page-desc">Converta textos entre diferentes formatos de capitalização</p>
+    </div>
+  </div>
+
+  <div class="tcase-card">
+    <div class="tcase-input-row">
+      <input
+        class="tcase-input"
+        placeholder="Digite o texto para converter..."
+        [value]="input()"
+        (input)="input.set($any($event.target).value); convert()"
+      />
+    </div>
+
+    <div class="tcase-results">
+      @for (item of [
+        { label: 'camelCase', key: camelCase(), desc: 'ex: helloWorldExample' },
+        { label: 'PascalCase', key: pascalCase(), desc: 'ex: HelloWorldExample' },
+        { label: 'snake_case', key: snakeCase(), desc: 'ex: hello_world_example' },
+        { label: 'kebab-case', key: kebabCase(), desc: 'ex: hello-world-example' },
+        { label: 'UPPER CASE', key: upperCase(), desc: 'ex: HELLO WORLD' },
+        { label: 'lower case', key: lowerCase(), desc: 'ex: hello world' },
+        { label: 'Title Case', key: titleCase(), desc: 'ex: Hello World' },
+        { label: 'CONSTANT_CASE', key: constantCase(), desc: 'ex: HELLO_WORLD' },
+        { label: 'dot.case', key: dotCase(), desc: 'ex: hello.world' }
+      ]; track item.label) {
+        <div class="tcase-result">
+          <div class="tcase-result-header">
+            <span class="tcase-result-label">{{ item.label }}</span>
+            @if (item.key) {
+              <app-copy-button [value]="item.key" size="sm" label="Copy" />
+            }
+          </div>
+          <div class="tcase-result-value" [class.empty]="!item.key">
+            {{ item.key || '—' }}
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

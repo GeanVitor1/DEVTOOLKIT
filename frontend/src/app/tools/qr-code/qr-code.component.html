@@ -1,0 +1,64 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-qr)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="4" height="4"/><rect x="7" y="17" width="3" height="3"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">QR Code Generator</h1>
+      <p class="tool-page-desc">Gere QR codes a partir de texto ou URLs</p>
+    </div>
+  </div>
+
+  <div class="qr-card">
+    <div class="qr-input-row">
+      <svg class="qr-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+      <input
+        class="qr-input"
+        placeholder="Digite texto ou URL..."
+        [value]="input()"
+        (input)="input.set($any($event.target).value)"
+        (keydown.enter)="generate()"
+      />
+      <button class="gen-btn" (click)="generate()">Gerar</button>
+    </div>
+
+    <div class="qr-size-row">
+      <label class="qr-size-label">Tamanho:</label>
+      <div class="sql-toggle">
+        <button class="sql-toggle-btn" [class.active]="size() === 150" (click)="setSize(150)">P</button>
+        <button class="sql-toggle-btn" [class.active]="size() === 250" (click)="setSize(250)">M</button>
+        <button class="sql-toggle-btn" [class.active]="size() === 350" (click)="setSize(350)">G</button>
+        <button class="sql-toggle-btn" [class.active]="size() === 500" (click)="setSize(500)">XG</button>
+      </div>
+    </div>
+
+    @if (qrUrl()) {
+      <div class="qr-preview">
+        <img [src]="qrUrl()" alt="QR Code" class="qr-image" />
+      </div>
+    } @else {
+      <div class="qr-empty">
+        <div class="qr-empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="4" height="4"/><rect x="7" y="17" width="3" height="3"/>
+          </svg>
+        </div>
+        <p class="qr-empty-text">Digite um texto ou URL e clique em Gerar</p>
+      </div>
+    }
+
+    @if (qrUrl()) {
+      <div class="qr-actions">
+        <app-copy-button [value]="input()" size="sm" label="Copiar Texto" />
+        <a [href]="qrUrl()" target="_blank" class="qr-download-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Abrir imagem
+        </a>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-num-base)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Number Base Converter</h1>
+      <p class="tool-page-desc">Converta entre bases numéricas: binário, octal, decimal e hexadecimal</p>
+    </div>
+  </div>
+
+  <div class="numbase-card">
+    <div class="numbase-base-select">
+      <span class="numbase-base-label">Base de entrada:</span>
+      <div class="sql-toggle">
+        <button class="sql-toggle-btn" [class.active]="fromBase() === 2" (click)="setBase(2)">BIN</button>
+        <button class="sql-toggle-btn" [class.active]="fromBase() === 8" (click)="setBase(8)">OCT</button>
+        <button class="sql-toggle-btn" [class.active]="fromBase() === 10" (click)="setBase(10)">DEC</button>
+        <button class="sql-toggle-btn" [class.active]="fromBase() === 16" (click)="setBase(16)">HEX</button>
+      </div>
+    </div>
+
+    <div class="numbase-input-row">
+      <span class="numbase-base-badge" [style.background]="'var(--dtk-num-base)'">Entrada</span>
+      <input
+        class="numbase-input"
+        [placeholder]="'Digite o valor em ' + ['','','binário','','','','','','octal','','decimal','','','','','','hexadecimal'][fromBase()]"
+        [value]="input()"
+        (input)="input.set($any($event.target).value); convert()"
+      />
+    </div>
+
+    @if (error()) {
+      <div class="numbase-error">{{ error() }}</div>
+    }
+
+    <div class="numbase-results">
+      <div class="numbase-result">
+        <div class="numbase-result-header">
+          <span class="numbase-result-name">Binário</span>
+          <span class="numbase-result-base">base 2</span>
+        </div>
+        <div class="numbase-result-value">
+          <code>{{ bin() || '—' }}</code>
+          @if (bin()) { <app-copy-button [value]="bin()" size="sm" label="Copy" /> }
+        </div>
+      </div>
+
+      <div class="numbase-result">
+        <div class="numbase-result-header">
+          <span class="numbase-result-name">Octal</span>
+          <span class="numbase-result-base">base 8</span>
+        </div>
+        <div class="numbase-result-value">
+          <code>{{ oct() || '—' }}</code>
+          @if (oct()) { <app-copy-button [value]="oct()" size="sm" label="Copy" /> }
+        </div>
+      </div>
+
+      <div class="numbase-result">
+        <div class="numbase-result-header">
+          <span class="numbase-result-name">Decimal</span>
+          <span class="numbase-result-base">base 10</span>
+        </div>
+        <div class="numbase-result-value">
+          <code>{{ dec() || '—' }}</code>
+          @if (dec()) { <app-copy-button [value]="dec()" size="sm" label="Copy" /> }
+        </div>
+      </div>
+
+      <div class="numbase-result">
+        <div class="numbase-result-header">
+          <span class="numbase-result-name">Hexadecimal</span>
+          <span class="numbase-result-base">base 16</span>
+        </div>
+        <div class="numbase-result-value">
+          <code>{{ hex() || '—' }}</code>
+          @if (hex()) { <app-copy-button [value]="hex()" size="sm" label="Copy" /> }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

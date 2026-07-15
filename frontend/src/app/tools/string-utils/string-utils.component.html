@@ -1,0 +1,76 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-string)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">String Utilities</h1>
+      <p class="tool-page-desc">Análise e manipulação de strings: contagem, reversão, case, etc.</p>
+    </div>
+  </div>
+
+  <div class="str-card">
+    <div class="str-input-row">
+      <textarea
+        class="str-input"
+        placeholder="Digite ou cole o texto aqui..."
+        [value]="input()"
+        (input)="input.set($any($event.target).value); analyze()"
+        rows="6"
+      ></textarea>
+    </div>
+
+    <div class="str-stats">
+      <div class="str-stat">
+        <span class="str-stat-value">{{ charCount() }}</span>
+        <span class="str-stat-label">Caracteres</span>
+      </div>
+      <div class="str-stat">
+        <span class="str-stat-value">{{ wordCount() }}</span>
+        <span class="str-stat-label">Palavras</span>
+      </div>
+      <div class="str-stat">
+        <span class="str-stat-value">{{ lineCount() }}</span>
+        <span class="str-stat-label">Linhas</span>
+      </div>
+      <div class="str-stat">
+        <span class="str-stat-value">{{ byteSize() }}</span>
+        <span class="str-stat-label">Bytes</span>
+      </div>
+      <div class="str-stat">
+        <span class="str-stat-value">{{ noSpaces() }}</span>
+        <span class="str-stat-label">s/ espaço</span>
+      </div>
+      <div class="str-stat">
+        <span class="str-stat-value">{{ noSpacesNoLines() }}</span>
+        <span class="str-stat-label">s/ espaço/linha</span>
+      </div>
+    </div>
+
+    <div class="str-results">
+      <div class="str-result">
+        <div class="tcase-result-header">
+          <span class="tcase-result-label">Texto invertido</span>
+          @if (reversed()) { <app-copy-button [value]="reversed()" size="sm" label="Copy" /> }
+        </div>
+        <div class="str-result-value" [class.empty]="!reversed()">{{ reversed() || '—' }}</div>
+      </div>
+      <div class="str-result">
+        <div class="tcase-result-header">
+          <span class="tcase-result-label">Case invertido</span>
+          @if (invertedCase()) { <app-copy-button [value]="invertedCase()" size="sm" label="Copy" /> }
+        </div>
+        <div class="str-result-value" [class.empty]="!invertedCase()">{{ invertedCase() || '—' }}</div>
+      </div>
+      <div class="str-result">
+        <div class="tcase-result-header">
+          <span class="tcase-result-label">Trim (sem espaços nas bordas)</span>
+          @if (trimmed()) { <app-copy-button [value]="trimmed()" size="sm" label="Copy" /> }
+        </div>
+        <div class="str-result-value" [class.empty]="!trimmed()">{{ trimmed() || '—' }}</div>
+      </div>
+    </div>
+  </div>
+</div>

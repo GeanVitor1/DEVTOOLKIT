@@ -1,0 +1,75 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-csv)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">CSV ↔ JSON</h1>
+      <p class="tool-page-desc">Converta entre CSV e JSON</p>
+    </div>
+  </div>
+
+  <div class="codec-controls">
+    <div class="sql-toggle">
+      <button class="sql-toggle-btn" [class.active]="mode() === 'csv-to-json'" (click)="mode.set('csv-to-json'); process()">CSV → JSON</button>
+      <button class="sql-toggle-btn" [class.active]="mode() === 'json-to-csv'" (click)="mode.set('json-to-csv'); process()">JSON → CSV</button>
+    </div>
+
+    <div class="csv-delimiter">
+      <label class="csv-delimiter-label">Delimitador:</label>
+      <select class="csv-delimiter-select" [value]="delimiter()" (change)="delimiter.set($any($event.target).value); process()">
+        <option value=",">Vírgula (,)</option>
+        <option value=";">Ponto e vírgula (;)</option>
+        <option value="	">Tab</option>
+        <option value="|">Pipe (|)</option>
+      </select>
+    </div>
+
+    <div class="sql-control-spacer"></div>
+
+    <button class="codec-swap" (click)="swap()" title="Inverter">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+    </button>
+
+    <button class="gen-btn" (click)="process()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Converter
+    </button>
+  </div>
+
+  <div class="codec-panels">
+    <div class="codec-panel">
+      <div class="codec-panel-header">
+        <span class="codec-panel-label">{{ mode() === 'csv-to-json' ? 'CSV' : 'JSON' }} de entrada</span>
+        <button class="tool-action-sm" (click)="clear()">Limpar</button>
+      </div>
+      <textarea
+        class="codec-textarea"
+        [placeholder]="mode() === 'csv-to-json' ? 'Cole o CSV aqui...' : 'Cole o JSON aqui...'"
+        [value]="input()"
+        (input)="input.set($any($event.target).value); process()"
+        rows="8"
+      ></textarea>
+    </div>
+
+    <div class="codec-panel">
+      <div class="codec-panel-header">
+        <span class="codec-panel-label">{{ mode() === 'csv-to-json' ? 'JSON gerado' : 'CSV gerado' }}</span>
+        @if (output()) {
+          <app-copy-button [value]="output()" size="sm" label="Copy" />
+        }
+      </div>
+      <div class="codec-output" [class.has-error]="error()">
+        @if (error()) {
+          <span class="codec-error">{{ error() }}</span>
+        } @else if (output()) {
+          <code class="codec-output-text">{{ output() }}</code>
+        } @else {
+          <span class="codec-placeholder">O resultado aparecerá aqui...</span>
+        }
+      </div>
+    </div>
+  </div>
+</div>
