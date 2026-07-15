@@ -1,8 +1,9 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
+import { StorageService } from '../../core/services/storage.service';
 
 
 interface KeyValueRow {
@@ -54,6 +55,16 @@ export class HttpClientComponent {
   readonly error = signal<string | null>(null);
 
   private readonly http = inject(HttpClient);
+  private readonly storage = inject(StorageService);
+
+  constructor() {
+    const saved = this.storage.load<{ method: string; url: string; body: string }>('http-last');
+    if (saved) {
+      this.method.set(saved.method || 'GET');
+      this.url.set(saved.url || '');
+      this.bodyContent.set(saved.body || '');
+    }
+  }
 
   get methods(): string[] {
     return ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'];
@@ -94,6 +105,7 @@ export class HttpClientComponent {
     try {
       const result = await this.executeRequest();
       this.response.set(result);
+      this.storage.save('http-last', { method: this.method(), url: this.url(), body: this.bodyContent() });
     } catch (err: unknown) {
       this.error.set(err instanceof Error ? err.message : 'Request failed');
     } finally {
@@ -227,6 +239,14 @@ export class HttpClientComponent {
     if (code >= 300 && code < 400) return 'var(--dtk-info)';
     if (code >= 400 && code < 500) return 'var(--dtk-warning)';
     return 'var(--dtk-error)';
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(e: KeyboardEvent): void {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      this.send();
+    }
   }
 
   trackByIndex(index: number): number {

@@ -2,6 +2,7 @@ import { Component, signal, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
+import { StorageService } from '../../core/services/storage.service';
 
 
 interface RegexMatch {
@@ -19,11 +20,27 @@ type FlagKey = 'g' | 'i' | 'm' | 's' | 'u';
   styleUrl: './regex-tester.component.scss'
 })
 export class RegexTesterComponent {
+  private readonly storage = inject(StorageService);
+
   readonly pattern = signal('(\\w+)@(\\w+)\\.(\\w+)');
   readonly flags = signal<Record<FlagKey, boolean>>({ g: true, i: false, m: false, s: false, u: false });
   readonly testString = signal('Contact: john@email.com and support@test.com');
 
   private readonly sanitizer = inject(DomSanitizer);
+
+  constructor() {
+    const saved = this.storage.load<{ pattern: string; flags: string }>('regex');
+    if (saved) {
+      this.pattern.set(saved.pattern || '');
+      if (saved.flags) {
+        const flagRecord: Record<FlagKey, boolean> = { g: false, i: false, m: false, s: false, u: false };
+        for (const f of saved.flags) {
+          if (f in flagRecord) flagRecord[f as FlagKey] = true;
+        }
+        this.flags.set(flagRecord);
+      }
+    }
+  }
 
   readonly flagKeys: { key: FlagKey; label: string }[] = [
     { key: 'g', label: 'g' },
@@ -107,6 +124,7 @@ export class RegexTesterComponent {
 
   toggleFlag(key: FlagKey): void {
     this.flags.update(f => ({ ...f, [key]: !f[key] }));
+    this.storage.save('regex', { pattern: this.pattern(), flags: this.flagString() });
   }
 
   setExample(): void {

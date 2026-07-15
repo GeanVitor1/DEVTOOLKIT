@@ -19,6 +19,14 @@ export const toolRoutes: Routes = [
       { path: 'timestamp-converter', loadComponent: () => import('./timestamp-converter/timestamp-converter.component').then(c => c.TimestampConverterComponent) },
       { path: 'color-converter', loadComponent: () => import('./color-converter/color-converter.component').then(c => c.ColorConverterComponent) },
       { path: 'cron-builder', loadComponent: () => import('./cron-builder/cron-builder.component').then(c => c.CronBuilderComponent) },
+      { path: 'password-generator', loadComponent: () => import('./password-generator/password-generator.component').then(c => c.PasswordGeneratorComponent) },
+      { path: 'diff-checker', loadComponent: () => import('./diff-checker/diff-checker.component').then(c => c.DiffCheckerComponent) },
+      { path: 'json-to-ts', loadComponent: () => import('./json-to-ts/json-to-ts.component').then(c => c.JsonToTsComponent) },
+      { path: 'yaml-formatter', loadComponent: () => import('./yaml-formatter/yaml-formatter.component').then(c => c.YamlFormatterComponent) },
+      { path: 'jwt-encoder', loadComponent: () => import('./jwt-encoder/jwt-encoder.component').then(c => c.JwtEncoderComponent) },
+      { path: 'ip-calculator', loadComponent: () => import('./ip-calculator/ip-calculator.component').then(c => c.IpCalculatorComponent) },
+      { path: 'docker-compose-gen', loadComponent: () => import('./docker-compose-gen/docker-compose-gen.component').then(c => c.DockerComposeGenComponent) },
+      { path: 'websocket-tester', loadComponent: () => import('./websocket-tester/websocket-tester.component').then(c => c.WebsocketTesterComponent) },
       { path: '', redirectTo: 'http-client', pathMatch: 'full' }
     ]
   }

@@ -1,7 +1,8 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 import { format } from 'sql-formatter';
+import { StorageService } from '../../core/services/storage.service';
 
 @Component({
   selector: 'app-sql-formatter',
@@ -10,10 +11,17 @@ import { format } from 'sql-formatter';
   styleUrl: './sql-formatter.component.scss'
 })
 export class SqlFormatterComponent {
+  private readonly storage = inject(StorageService);
+
   readonly input = signal('SELECT * FROM users WHERE age > 18 ORDER BY name');
   readonly dialect = signal('postgresql');
   readonly caseStyle = signal<'upper' | 'lower'>('upper');
   readonly indent = signal(2);
+
+  constructor() {
+    const saved = this.storage.load<string>('sql-input');
+    if (saved) this.input.set(saved);
+  }
 
   readonly dialects = [
     { value: 'bigquery', label: 'BigQuery' },
@@ -64,9 +72,27 @@ export class SqlFormatterComponent {
 
   setExample(): void {
     this.input.set('SELECT u.id, u.name, COUNT(o.id) AS order_count\nFROM users u\nLEFT JOIN orders o ON u.id = o.user_id\nWHERE u.created_at > \'2024-01-01\'\n  AND u.active = true\nGROUP BY u.id, u.name\nHAVING COUNT(o.id) > 5\nORDER BY order_count DESC\nLIMIT 10;');
+    this.storage.save('sql-input', this.input());
   }
 
   clear(): void {
     this.input.set('');
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const file = event.dataTransfer?.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.input.set(reader.result as string);
+    };
+    reader.readAsText(file);
   }
 }

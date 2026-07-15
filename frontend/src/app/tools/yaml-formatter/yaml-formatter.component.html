@@ -1,0 +1,76 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-yaml)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M7 9h10"/><path d="M7 13h6"/><path d="M7 17h8"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">YAML Formatter</h1>
+      <p class="tool-page-desc">Formate, valide e converta entre YAML e JSON</p>
+    </div>
+  </div>
+
+  <div class="yaml-panels">
+    <div class="yaml-panel">
+      <div class="yaml-panel-header">
+        <span class="yaml-panel-label">Entrada</span>
+        <button class="tool-action-sm" (click)="loadSample()">Exemplo</button>
+      </div>
+      <textarea
+        class="yaml-textarea"
+        placeholder="Cole seu YAML aqui..."
+        [value]="input()"
+        (input)="input.set($any($event.target).value)"
+        rows="16"
+        (dragover)="onDragOver($event)" (drop)="onDrop($event)"
+      ></textarea>
+      <div class="drop-zone" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+        <span class="drop-hint">Arraste um arquivo aqui</span>
+      </div>
+    </div>
+
+    <div class="yaml-panel">
+      <div class="yaml-panel-header">
+        <span class="yaml-panel-label">Saída</span>
+        @if (output()) {
+          <button class="tool-action-sm" (click)="copyOutput()">Copiar</button>
+        }
+      </div>
+      @if (output()) {
+        <pre class="yaml-output"><code>{{ output() }}</code></pre>
+      } @else if (error()) {
+        <div class="yaml-error">{{ error() }}</div>
+      } @else {
+        <div class="yaml-placeholder">O resultado aparecerá aqui...</div>
+      }
+    </div>
+  </div>
+
+  <div class="yaml-controls">
+    <div class="yaml-option-group">
+      <label class="sql-control-label">Indentação</label>
+      <div class="sql-toggle">
+        <button class="sql-toggle-btn" [class.active]="indent() === 2" (click)="indent.set(2)">2</button>
+        <button class="sql-toggle-btn" [class.active]="indent() === 4" (click)="indent.set(4)">4</button>
+        <button class="sql-toggle-btn" [class.active]="indent() === 8" (click)="indent.set(8)">8</button>
+      </div>
+    </div>
+
+    <div class="sql-control-spacer"></div>
+
+    <button class="tool-action" (click)="convertToYaml()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      JSON → YAML
+    </button>
+    <button class="tool-action" (click)="convertToJson()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      YAML → JSON
+    </button>
+
+    <button class="gen-btn" (click)="format()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>
+      Formatar
+    </button>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-ip)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">IP Calculator</h1>
+      <p class="tool-page-desc">Calcule subnets, ranges de IPs e informações de rede</p>
+    </div>
+  </div>
+
+  <div class="ip-input-section">
+    <div class="ip-input-row">
+      <input
+        class="ip-input"
+        type="text"
+        placeholder="192.168.1.0/24"
+        [value]="input()"
+        (input)="input.set($any($event.target).value)"
+        (keyup.enter)="calculate()"
+      />
+      <button class="gen-btn" (click)="calculate()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Calcular
+      </button>
+    </div>
+    <div class="ip-presets">
+      @for (preset of presets(); track preset.value) {
+        <button class="ip-preset-btn" (click)="input.set(preset.value); calculate()">{{ preset.label }}</button>
+      }
+    </div>
+  </div>
+
+  @if (result()) {
+    <div class="gen-actions">
+      <button class="tool-action" (click)="copyResult()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copiar Resultado
+      </button>
+      <button class="tool-action" (click)="clear()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Limpar
+      </button>
+    </div>
+
+    <div class="ip-results">
+      <div class="ip-result-row">
+        <span class="ip-result-label">Endereço de Rede</span>
+        <code class="ip-result-value highlight">{{ result()!.networkAddress }}/{{ result()!.cidr }}</code>
+      </div>
+      <div class="ip-result-row">
+        <span class="ip-result-label">Broadcast</span>
+        <code class="ip-result-value">{{ result()!.broadcastAddress }}</code>
+      </div>
+      <div class="ip-result-row">
+        <span class="ip-result-label">Máscara de Sub-rede</span>
+        <code class="ip-result-value">{{ result()!.subnetMask }}</code>
+      </div>
+      <div class="ip-result-row">
+        <span class="ip-result-label">Máscara Wildcard</span>
+        <code class="ip-result-value">{{ result()!.wildcardMask }}</code>
+      </div>
+      <div class="ip-result-row">
+        <span class="ip-result-label">Primeiro Host</span>
+        <code class="ip-result-value success">{{ result()!.firstHost }}</code>
+      </div>
+      <div class="ip-result-row">
+        <span class="ip-result-label">Último Host</span>
+        <code class="ip-result-value success">{{ result()!.lastHost }}</code>
+      </div>
+      <div class="ip-result-row">
+        <span class="ip-result-label">Total de Hosts</span>
+        <code class="ip-result-value">{{ result()!.totalHosts | number }}</code>
+      </div>
+      <div class="ip-result-row">
+        <span class="ip-result-label">Classe IP</span>
+        <code class="ip-result-value">{{ result()!.ipClass }}</code>
+      </div>
+    </div>
+
+    <div class="ip-binary-section">
+      <div class="ip-binary-row">
+        <span class="ip-binary-label">IP em Binário</span>
+        <code class="ip-binary-value">{{ result()!.binaryIp }}</code>
+      </div>
+      <div class="ip-binary-row">
+        <span class="ip-binary-label">Máscara em Binário</span>
+        <code class="ip-binary-value">{{ result()!.binaryMask }}</code>
+      </div>
+    </div>
+  } @else if (error()) {
+    <div class="ip-error">{{ error() }}</div>
+  } @else {
+    <div class="empty-state">
+      <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/>
+      </svg>
+      <h3 class="empty-title">Calcule informações de rede</h3>
+      <p class="empty-desc">Insira um IP com notação CIDR para calcular subnets e ranges</p>
+    </div>
+  }
+</div>

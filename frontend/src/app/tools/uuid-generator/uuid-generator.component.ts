@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 
@@ -97,6 +97,14 @@ export class UuidGeneratorComponent {
     a.download = 'uuids-' + this.version() + '-' + Date.now() + '.txt';
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(e: KeyboardEvent): void {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      this.generate();
+    }
   }
 
   trackByIndex(index: number): number {

@@ -1,0 +1,88 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-docker)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Docker Compose Generator</h1>
+      <p class="tool-page-desc">Gere docker-compose.yml visualmente com templates prontos</p>
+    </div>
+  </div>
+
+  <div class="dc-templates">
+    <span class="sql-control-label">Templates</span>
+    <div class="dc-templates-grid">
+      @for (tmpl of templates(); track tmpl.label) {
+        <button class="dc-template-btn" (click)="applyTemplate(tmpl)">{{ tmpl.label }}</button>
+      }
+    </div>
+  </div>
+
+  <div class="dc-services">
+    <div class="dc-services-header">
+      <span class="sql-control-label">Serviços</span>
+      <button class="tool-action" (click)="addService()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Adicionar Serviço
+      </button>
+    </div>
+
+    @for (svc of services(); track svc.name; let i = $index) {
+      <div class="dc-service-card">
+        <div class="dc-service-header">
+          <input class="dc-service-name" [value]="svc.name" (input)="updateService(i, 'name', $any($event.target).value)" placeholder="nome" />
+          <button class="dc-remove-btn" (click)="removeService(i)" [disabled]="services().length <= 1">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="dc-service-fields">
+          <div class="dc-field">
+            <label class="dc-field-label">Image</label>
+            <input class="dc-field-input" [value]="svc.image" (input)="updateService(i, 'image', $any($event.target).value)" placeholder="node:20-alpine" />
+          </div>
+          <div class="dc-field">
+            <label class="dc-field-label">Ports</label>
+            <input class="dc-field-input" [value]="svc.ports" (input)="updateService(i, 'ports', $any($event.target).value)" placeholder="3000:3000" />
+          </div>
+          <div class="dc-field">
+            <label class="dc-field-label">Environment</label>
+            <input class="dc-field-input" [value]="svc.envVars" (input)="updateService(i, 'envVars', $any($event.target).value)" placeholder="KEY=value" />
+          </div>
+          <div class="dc-field">
+            <label class="dc-field-label">Volumes</label>
+            <input class="dc-field-input" [value]="svc.volumes" (input)="updateService(i, 'volumes', $any($event.target).value)" placeholder="./src:/app/src" />
+          </div>
+          <div class="dc-field">
+            <label class="dc-field-label">Depends On</label>
+            <input class="dc-field-input" [value]="svc.dependsOn" (input)="updateService(i, 'dependsOn', $any($event.target).value)" placeholder="db" />
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="dc-network">
+    <label class="sql-control-label">Network</label>
+    <input class="dc-network-input" [value]="networkName()" (input)="networkName.set($any($event.target).value)" placeholder="app-network" />
+  </div>
+
+  <div class="dc-controls">
+    <div class="sql-control-spacer"></div>
+    <button class="gen-btn" (click)="generate()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Gerar docker-compose.yml
+    </button>
+  </div>
+
+  @if (output()) {
+    <div class="dc-result">
+      <div class="dc-result-header">
+        <span class="dc-result-label">docker-compose.yml</span>
+        <button class="tool-action-sm" (click)="copyOutput()">Copiar</button>
+      </div>
+      <pre class="dc-output"><code>{{ output() }}</code></pre>
+    </div>
+  }
+</div>

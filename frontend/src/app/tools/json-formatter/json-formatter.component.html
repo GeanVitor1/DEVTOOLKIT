@@ -32,7 +32,11 @@
   <div class="tool-split">
     <div class="tool-pane">
       <div class="tool-pane-label">Input</div>
-      <textarea class="tool-editor" [value]="input()" (input)="input.set($any($event.target).value)" placeholder="Cole seu JSON aqui..." spellcheck="false"></textarea>
+      <textarea class="tool-editor" [value]="input()" (input)="input.set($any($event.target).value)" placeholder="Cole seu JSON aqui..." spellcheck="false"
+        (dragover)="onDragOver($event)" (drop)="onDrop($event)"></textarea>
+      <div class="drop-zone" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+        <span class="drop-hint">Arraste um arquivo aqui</span>
+      </div>
     </div>
     <div class="tool-pane-divider"></div>
     <div class="tool-pane">

@@ -37,6 +37,24 @@ export class SidebarComponent {
           route: '/tools/jwt-decoder',
           color: 'var(--dtk-jwt)'
         },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><line x1="12" y1="15" x2="12" y2="18"/></svg>`,
+          label: 'JWT Encoder',
+          route: '/tools/jwt-encoder',
+          color: 'var(--dtk-jwt)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>`,
+          label: 'IP Calculator',
+          route: '/tools/ip-calculator',
+          color: 'var(--dtk-ip)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+          label: 'WebSocket Tester',
+          route: '/tools/websocket-tester',
+          color: 'var(--dtk-ws)'
+        },
       ]
     },
     {
@@ -53,6 +71,18 @@ export class SidebarComponent {
           label: 'SQL Formatter',
           route: '/tools/sql-formatter',
           color: 'var(--dtk-sql)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+          label: 'JSON to TypeScript',
+          route: '/tools/json-to-ts',
+          color: 'var(--dtk-json)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M7 9h10"/><path d="M7 13h6"/></svg>`,
+          label: 'YAML Formatter',
+          route: '/tools/yaml-formatter',
+          color: 'var(--dtk-yaml)'
         },
       ]
     },
@@ -112,6 +142,24 @@ export class SidebarComponent {
           label: 'Cron Builder',
           route: '/tools/cron-builder',
           color: 'var(--dtk-cron)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+          label: 'Password Generator',
+          route: '/tools/password-generator',
+          color: 'var(--dtk-password)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 12h4"/><path d="M21 12h-4"/></svg>`,
+          label: 'Diff Checker',
+          route: '/tools/diff-checker',
+          color: 'var(--dtk-diff)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+          label: 'Docker Compose',
+          route: '/tools/docker-compose-gen',
+          color: 'var(--dtk-docker)'
         }
       ]
     }

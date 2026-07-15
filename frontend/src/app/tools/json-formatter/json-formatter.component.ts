@@ -1,6 +1,7 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
+import { StorageService } from '../../core/services/storage.service';
 
 
 interface JsonTreeNode {
@@ -18,9 +19,16 @@ interface JsonTreeNode {
   styleUrl: './json-formatter.component.scss'
 })
 export class JsonFormatterComponent {
+  private readonly storage = inject(StorageService);
+
   readonly input = signal(`{\n  "name": "John Doe",\n  "age": 30,\n  "email": "john@test.com",\n  "address": {\n    "city": "New York",\n    "zip": "10001"\n  },\n  "tags": ["developer", "designer"]\n}`);
   readonly jsonpathQuery = signal('');
   readonly jsonpathResult = signal('');
+
+  constructor() {
+    const saved = this.storage.load<string>('json-input');
+    if (saved) this.input.set(saved);
+  }
 
   readonly activeAction = signal<'format' | 'minify' | 'input'>('format');
 
@@ -114,6 +122,7 @@ export class JsonFormatterComponent {
     this.activeAction.set('format');
     const p = this.parsed();
     if (p.ok) this.input.set(this.formatted());
+    this.storage.save('json-input', this.input());
   }
 
   clear(): void {
@@ -172,5 +181,30 @@ export class JsonFormatterComponent {
     if (node.type === 'array') return '[...]';
     if (node.type === 'string') return `"${String(node.value)}"`;
     return String(node.value);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(e: KeyboardEvent): void {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      this.validate();
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const file = event.dataTransfer?.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.input.set(reader.result as string);
+    };
+    reader.readAsText(file);
   }
 }
