@@ -17,7 +17,7 @@ export class Base64CodecComponent {
   readonly output = signal('');
   readonly mode = signal<'encode' | 'decode'>('encode');
   readonly error = signal('');
-  private readonly clipboard = new ClipboardService();
+  private readonly clipboard = inject(ClipboardService);
 
   constructor() {
     const saved = this.storage.load<{ input: string; mode: string }>('base64');

@@ -1,4 +1,4 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit, inject, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 import { ClipboardService } from '../../core/services/clipboard.service';
@@ -16,7 +16,7 @@ export class TimestampConverterComponent implements OnInit {
   readonly now = signal('');
   readonly error = signal('');
   private intervalId: ReturnType<typeof setInterval> | null = null;
-  private readonly clipboard = new ClipboardService();
+  private readonly clipboard = inject(ClipboardService);
 
   ngOnInit(): void {
     this.updateNow();
@@ -103,5 +103,13 @@ export class TimestampConverterComponent implements OnInit {
 
   formatNowDate(): string {
     return new Date().toISOString().slice(0, 19).replace('T', ' ');
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(e: KeyboardEvent): void {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      this.convertTimestamp();
+    }
   }
 }

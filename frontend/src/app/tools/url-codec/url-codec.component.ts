@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 import { ClipboardService } from '../../core/services/clipboard.service';
@@ -15,7 +15,7 @@ export class UrlCodecComponent {
   readonly mode = signal<'encode' | 'decode'>('encode');
   readonly encodeType = signal<'component' | 'full'>('component');
   readonly error = signal('');
-  private readonly clipboard = new ClipboardService();
+  private readonly clipboard = inject(ClipboardService);
 
   constructor() {
     this.process();
@@ -76,5 +76,13 @@ export class UrlCodecComponent {
     this.input.set('');
     this.output.set('');
     this.error.set('');
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(e: KeyboardEvent): void {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      this.process();
+    }
   }
 }

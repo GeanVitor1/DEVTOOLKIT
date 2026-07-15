@@ -24,6 +24,8 @@ export class JsonFormatterComponent {
   readonly input = signal(`{\n  "name": "John Doe",\n  "age": 30,\n  "email": "john@test.com",\n  "address": {\n    "city": "New York",\n    "zip": "10001"\n  },\n  "tags": ["developer", "designer"]\n}`);
   readonly jsonpathQuery = signal('');
   readonly jsonpathResult = signal('');
+  readonly dragActive = signal(false);
+  private dragCounter = 0;
 
   constructor() {
     const saved = this.storage.load<string>('json-input');
@@ -191,6 +193,19 @@ export class JsonFormatterComponent {
     }
   }
 
+  onDragEnter(event: DragEvent): void {
+    event.preventDefault();
+    this.dragCounter++;
+    this.dragActive.set(true);
+  }
+
+  onDragLeave(event: DragEvent): void {
+    this.dragCounter--;
+    if (this.dragCounter === 0) {
+      this.dragActive.set(false);
+    }
+  }
+
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -199,6 +214,8 @@ export class JsonFormatterComponent {
   onDrop(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
+    this.dragCounter = 0;
+    this.dragActive.set(false);
     const file = event.dataTransfer?.files[0];
     if (!file) return;
     const reader = new FileReader();

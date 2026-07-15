@@ -1,4 +1,4 @@
-import { Component, signal, HostListener } from '@angular/core';
+import { Component, signal, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 import { ClipboardService } from '../../core/services/clipboard.service';
@@ -21,7 +21,7 @@ export class HashGeneratorComponent {
   readonly selectedAlgos = signal<Algorithm[]>(['SHA-256']);
   readonly results = signal<HashResult[]>([]);
   readonly inputMode = signal<'text' | 'hex'>('text');
-  private readonly clipboard = new ClipboardService();
+  private readonly clipboard = inject(ClipboardService);
 
   readonly allAlgorithms: Algorithm[] = ['SHA-1', 'SHA-256', 'SHA-512'];
 

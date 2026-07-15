@@ -183,18 +183,17 @@
   pointer-events: none;
   transition: opacity var(--dtk-transition-fast);
   z-index: 10;
+
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .drop-hint {
   font-size: var(--dtk-text-sm);
   color: var(--dtk-text-muted);
   font-weight: 500;
-}
-
-textarea:focus ~ .drop-zone,
-.drop-zone:hover {
-  opacity: 1;
-  pointer-events: auto;
 }
 
 .tool-status {

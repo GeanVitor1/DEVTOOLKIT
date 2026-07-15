@@ -12,7 +12,11 @@
   </div>
 
   <div class="yaml-panels">
-    <div class="yaml-panel">
+    <div class="yaml-panel"
+      (dragenter)="onDragEnter($event)"
+      (dragleave)="onDragLeave($event)"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event)">
       <div class="yaml-panel-header">
         <span class="yaml-panel-label">Entrada</span>
         <button class="tool-action-sm" (click)="loadSample()">Exemplo</button>
@@ -23,9 +27,8 @@
         [value]="input()"
         (input)="input.set($any($event.target).value)"
         rows="16"
-        (dragover)="onDragOver($event)" (drop)="onDrop($event)"
       ></textarea>
-      <div class="drop-zone" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+      <div class="drop-zone" [class.active]="dragActive()">
         <span class="drop-hint">Arraste um arquivo aqui</span>
       </div>
     </div>

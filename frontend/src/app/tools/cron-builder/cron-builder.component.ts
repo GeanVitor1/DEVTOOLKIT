@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 import { ClipboardService } from '../../core/services/clipboard.service';
@@ -65,7 +65,7 @@ export class CronBuilderComponent {
     { label: 'A cada 15 min', value: '*/15 * * * *' },
   ]);
 
-  private readonly clipboard = new ClipboardService();
+  private readonly clipboard = inject(ClipboardService);
 
   private generateRange(start: number, end: number): string[] {
     return Array.from({ length: end - start + 1 }, (_, i) => (start + i).toString());

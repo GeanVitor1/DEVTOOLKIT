@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnDestroy } from '@angular/core';
+import { Component, inject, signal, OnDestroy, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 import { ClipboardService } from '../../core/services/clipboard.service';
@@ -111,6 +111,14 @@ export class WebsocketTesterComponent implements OnDestroy {
 
   clearMessages(): void {
     this.messages.set([]);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(e: KeyboardEvent): void {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      this.connect();
+    }
   }
 
   ngOnDestroy(): void {

@@ -30,11 +30,14 @@
   </div>
 
   <div class="tool-split">
-    <div class="tool-pane">
+    <div class="tool-pane"
+      (dragenter)="onDragEnter($event)"
+      (dragleave)="onDragLeave($event)"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event)">
       <div class="tool-pane-label">Input</div>
-      <textarea class="tool-editor" [value]="input()" (input)="input.set($any($event.target).value)" placeholder="Cole seu JSON aqui..." spellcheck="false"
-        (dragover)="onDragOver($event)" (drop)="onDrop($event)"></textarea>
-      <div class="drop-zone" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+      <textarea class="tool-editor" [value]="input()" (input)="input.set($any($event.target).value)" placeholder="Cole seu JSON aqui..." spellcheck="false"></textarea>
+      <div class="drop-zone" [class.active]="dragActive()">
         <span class="drop-hint">Arraste um arquivo aqui</span>
       </div>
     </div>

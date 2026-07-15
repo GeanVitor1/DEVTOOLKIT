@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 import { ClipboardService } from '../../core/services/clipboard.service';
@@ -18,7 +18,7 @@ export class ColorConverterComponent {
   readonly s = signal(93);
   readonly l = signal(60);
   readonly alpha = signal(1);
-  private readonly clipboard = new ClipboardService();
+  private readonly clipboard = inject(ClipboardService);
 
   constructor() {
     this.updateFromHex();

@@ -1,4 +1,4 @@
-import { Component, signal, HostListener } from '@angular/core';
+import { Component, signal, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 
@@ -15,7 +15,7 @@ export class UuidGeneratorComponent {
   readonly format = signal<'dashed' | 'curly' | 'upper'>('dashed');
   readonly quantity = signal(5);
   readonly uuids = signal<string[]>([]);
-  private readonly clipboard = new ClipboardService();
+  private readonly clipboard = inject(ClipboardService);
 
   setVersion(v: string): void {
     if (v === 'v1' || v === 'v4' || v === 'v7') this.version.set(v as 'v1' | 'v4' | 'v7');
