@@ -21,7 +21,7 @@ public class ProxyService : IProxyService
             Url = request.Url,
             Headers = request.Headers,
             Body = request.Body,
-            TimeoutMs = Math.Min(request.TimeoutMs, 30000)
+            TimeoutMs = request.TimeoutMs <= 0 ? 30000 : Math.Min(request.TimeoutMs, 30000)
         };
 
         var domainResponse = await _httpClientProxy.SendAsync(domainRequest);

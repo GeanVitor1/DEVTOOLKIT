@@ -1,19 +1,17 @@
 <section id="tools" class="tools">
   <div class="section-header">
-    <h2 class="section-title">Ferramentas</h2>
-    <p class="section-desc">Seis ferramentas essenciais para desenvolvedores</p>
+    <h2 class="section-title">Todas as ferramentas</h2>
+    <p class="section-desc">{{ toolsCount }} utilitários no browser. Clique e use.</p>
   </div>
   <div class="tools-grid">
-    @for (tool of tools; track tool.name) {
+    @for (tool of tools; track tool.route) {
       <a class="tool-card" [routerLink]="tool.route" [style.--tool-color]="tool.color">
-        <div class="tool-card-icon" [innerHTML]="tool.icon | safeHtml"></div>
+        <div class="tool-card-top">
+          <div class="tool-card-icon" [innerHTML]="tool.icon | safeHtml"></div>
+          <span class="tool-card-group">{{ tool.group }}</span>
+        </div>
         <h3 class="tool-card-title">{{ tool.name }}</h3>
         <p class="tool-card-desc">{{ tool.description }}</p>
-        <div class="tool-card-tags">
-          @for (feat of tool.features; track feat) {
-            <span class="tool-tag">{{ feat }}</span>
-          }
-        </div>
       </a>
     }
   </div>

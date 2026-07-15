@@ -55,7 +55,8 @@ export class JwtEncoderComponent {
   }
 
   private base64UrlEncodeStr(str: string): string {
-    return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    // UTF-8 safe (btoa alone breaks on non-Latin1)
+    return this.base64UrlEncode(new TextEncoder().encode(str));
   }
 
   async encode(): Promise<void> {

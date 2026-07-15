@@ -25,7 +25,7 @@ Este é um **exemplo** de Markdown com \`código inline\`.
 function saudacao(nome) {
   return \`Olá, \${nome}!\`;
 }
-\`\`\*
+\`\`\`
 
 > Esta é uma citação em bloco.
 

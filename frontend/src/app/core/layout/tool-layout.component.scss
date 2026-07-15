@@ -22,7 +22,7 @@
   overflow-y: auto;
   padding: var(--dtk-space-6);
   background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(196, 149, 106, 0.02) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 40% at 50% 0%, color-mix(in srgb, var(--dtk-border-focus) 4%, transparent) 0%, transparent 60%);
 }
 
 @media (max-width: 768px) {

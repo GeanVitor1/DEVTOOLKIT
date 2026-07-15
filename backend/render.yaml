@@ -1,0 +1,20 @@
+# Render Blueprint — deploy from the monorepo with Root Directory = backend
+# Dashboard: New > Blueprint > select this file, or create Web Service manually.
+
+services:
+  - type: web
+    name: devtoolkit-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      # Comma-separated frontend origins, e.g. https://devtoolkit.vercel.app
+      - key: CORS_ORIGINS
+        sync: false
+      - key: PORT
+        value: "8080"

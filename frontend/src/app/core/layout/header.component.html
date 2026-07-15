@@ -54,7 +54,7 @@
           class="search-result"
           [class.active]="i === selectedIndex()"
           [style.--result-color]="tool.color"
-          (click)="selectTool(tool)"
+          (click)="selectTool(tool.route)"
           (mouseenter)="selectedIndex.set(i)"
         >
           <span class="search-result-dot" [style.background]="tool.color"></span>

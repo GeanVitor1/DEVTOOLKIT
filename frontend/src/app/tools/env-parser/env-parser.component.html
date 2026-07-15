@@ -1,0 +1,85 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-env)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v16H4z"/><path d="M8 8h8"/><path d="M8 12h5"/><path d="M8 16h6"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Env Parser</h1>
+      <p class="tool-page-desc">Parse, valide e exporte arquivos .env</p>
+    </div>
+  </div>
+
+  <div class="env-panels">
+    <div class="env-panel">
+      <div class="env-panel-header">
+        <span>.env input</span>
+        <button class="tool-action-sm" (click)="clear()">Limpar</button>
+      </div>
+      <textarea
+        class="env-textarea"
+        rows="14"
+        [value]="input()"
+        (input)="input.set($any($event.target).value); parse()"
+        placeholder="KEY=value"
+      ></textarea>
+    </div>
+
+    <div class="env-panel">
+      <div class="env-panel-header">
+        <div class="env-tabs">
+          <button class="env-tab" [class.active]="mode() === 'table'" (click)="mode.set('table')">Tabela</button>
+          <button class="env-tab" [class.active]="mode() === 'json'" (click)="mode.set('json')">JSON</button>
+          <button class="env-tab" [class.active]="mode() === 'export'" (click)="mode.set('export')">Export</button>
+        </div>
+        @if (mode() === 'json') {
+          <app-copy-button [value]="toJson()" size="sm" label="Copy" />
+        }
+        @if (mode() === 'export') {
+          <app-copy-button [value]="toExport()" size="sm" label="Copy" />
+        }
+      </div>
+
+      @if (errors().length) {
+        <div class="env-errors">
+          @for (err of errors(); track err) {
+            <div class="env-error">{{ err }}</div>
+          }
+        </div>
+      }
+
+      @if (mode() === 'table') {
+        <div class="env-table">
+          @if (entries().length === 0) {
+            <div class="env-empty">Nenhuma variável encontrada</div>
+          } @else {
+            @for (entry of entries(); track entry.key + entry.line) {
+              <div class="env-row" [class.has-issue]="entry.issue">
+                <code class="env-key">{{ entry.key }}</code>
+                <code class="env-val">{{ entry.value }}</code>
+                <app-copy-button [value]="entry.value" size="sm" label="Copy" />
+              </div>
+              @if (entry.issue) {
+                <div class="env-issue">{{ entry.issue }}</div>
+              }
+            }
+          }
+        </div>
+      }
+
+      @if (mode() === 'json') {
+        <pre class="env-code">{{ toJson() }}</pre>
+      }
+
+      @if (mode() === 'export') {
+        <pre class="env-code">{{ toExport() }}</pre>
+      }
+    </div>
+  </div>
+
+  <div class="env-stats">
+    <span>{{ entries().length }} variáveis</span>
+    <span>{{ errors().length }} erros</span>
+  </div>
+</div>

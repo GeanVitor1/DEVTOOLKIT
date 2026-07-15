@@ -1,6 +1,6 @@
 <aside class="sidebar" [class.open]="layout.sidebarOpen()">
   @if (layout.sidebarOpen()) {
-    <div class="sidebar-backdrop" (click)="layout.toggleSidebar()" (keydown)="layout.toggleSidebar()" tabindex="0"></div>
+    <div class="sidebar-backdrop" (click)="layout.toggleSidebar()" (keydown.escape)="layout.toggleSidebar()" tabindex="0" role="button" aria-label="Fechar menu"></div>
   }
   <div class="sidebar-inner">
     <div class="sidebar-header">
@@ -8,10 +8,23 @@
         <span class="sidebar-logo-mark">&lt;/&gt;</span>
         <span class="sidebar-logo-text">DevToolkit</span>
       </a>
+      <span class="sidebar-count">{{ toolsCount }} tools</span>
+    </div>
+
+    <div class="sidebar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input
+        type="search"
+        class="sidebar-search-input"
+        placeholder="Filtrar ferramentas..."
+        [value]="filter()"
+        (input)="onFilter($any($event.target).value)"
+        aria-label="Filtrar ferramentas"
+      />
     </div>
 
     <nav class="sidebar-nav">
-      @for (group of groups; track group.label) {
+      @for (group of groups(); track group.label) {
         <div class="sidebar-group">
           <span class="sidebar-group-label">{{ group.label }}</span>
           @for (item of group.items; track item.route) {
@@ -23,11 +36,13 @@
               (click)="layout.sidebarOpen.set(false)"
             >
               <span class="sidebar-item-icon" [innerHTML]="item.icon | safeHtml"></span>
-              <span class="sidebar-item-label">{{ item.label }}</span>
+              <span class="sidebar-item-label">{{ item.name }}</span>
               <span class="sidebar-item-indicator"></span>
             </a>
           }
         </div>
+      } @empty {
+        <div class="sidebar-empty">Nenhuma ferramenta encontrada</div>
       }
     </nav>
 
@@ -41,7 +56,7 @@
           }
         </button>
       </div>
-      <span class="sidebar-version">v1.0</span>
+      <span class="sidebar-version">100% client-side</span>
     </div>
   </div>
 </aside>

@@ -104,7 +104,7 @@ export class ToolShowcaseComponent {
       tagline: 'Calcule redes e sub-redes IP',
       description: 'Informações completas de qualquer bloco CIDR: endereço de rede, máscara, broadcast, range de hosts, classe e muito mais. Essencial para DevOps e infraestrutura.',
       color: 'var(--dtk-ip)',
-      route: '/tools/ip-cidr',
+      route: '/tools/ip-calculator',
       features: ['Endereço de rede', 'Máscara / Wildcard', 'Range de hosts', 'Classe da rede'],
       preview: `<div class="preview-regex">
   <div class="preview-line"><span class="json-key" style="color:var(--dtk-ip)">192.168.1.0/24</span></div>

@@ -1,0 +1,83 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-chmod)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Chmod Calculator</h1>
+      <p class="tool-page-desc">Permissões Unix em octal, simbólico e estilo ls</p>
+    </div>
+  </div>
+
+  <div class="chmod-presets">
+    @for (p of ['755', '644', '777', '600', '700', '750', '4755', '2755']; track p) {
+      <button class="chmod-preset" (click)="setPreset(p)">{{ p }}</button>
+    }
+  </div>
+
+  <div class="chmod-grid">
+    @for (who of [
+      { key: 'owner', label: 'Owner (u)', bits: owner },
+      { key: 'group', label: 'Group (g)', bits: group },
+      { key: 'other', label: 'Other (o)', bits: other }
+    ]; track who.key) {
+      <div class="chmod-card">
+        <h3 class="chmod-card-title">{{ who.label }}</h3>
+        <div class="chmod-checks">
+          <label class="chmod-check">
+            <input type="checkbox" [checked]="who.bits().r" (change)="toggle($any(who.key), 'r')" />
+            <span>Read (4)</span>
+          </label>
+          <label class="chmod-check">
+            <input type="checkbox" [checked]="who.bits().w" (change)="toggle($any(who.key), 'w')" />
+            <span>Write (2)</span>
+          </label>
+          <label class="chmod-check">
+            <input type="checkbox" [checked]="who.bits().x" (change)="toggle($any(who.key), 'x')" />
+            <span>Execute (1)</span>
+          </label>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="chmod-special">
+    <label class="chmod-check">
+      <input type="checkbox" [checked]="setuid()" (change)="setuid.set(!setuid())" />
+      <span>Setuid (4xxx)</span>
+    </label>
+    <label class="chmod-check">
+      <input type="checkbox" [checked]="setgid()" (change)="setgid.set(!setgid())" />
+      <span>Setgid (2xxx)</span>
+    </label>
+    <label class="chmod-check">
+      <input type="checkbox" [checked]="sticky()" (change)="sticky.set(!sticky())" />
+      <span>Sticky (1xxx)</span>
+    </label>
+  </div>
+
+  <div class="chmod-results">
+    <div class="chmod-result">
+      <span class="chmod-result-label">Octal</span>
+      <code class="chmod-result-value">{{ octal() }}</code>
+      <app-copy-button [value]="octal()" size="sm" label="Copy" />
+    </div>
+    <div class="chmod-result">
+      <span class="chmod-result-label">Symbolic</span>
+      <code class="chmod-result-value">{{ symbolic() }}</code>
+      <app-copy-button [value]="symbolic()" size="sm" label="Copy" />
+    </div>
+    <div class="chmod-result">
+      <span class="chmod-result-label">ls style</span>
+      <code class="chmod-result-value">{{ lsStyle() }}</code>
+      <app-copy-button [value]="lsStyle()" size="sm" label="Copy" />
+    </div>
+    <div class="chmod-result wide">
+      <span class="chmod-result-label">Command</span>
+      <code class="chmod-result-value">{{ command() }}</code>
+      <app-copy-button [value]="command()" size="sm" label="Copy" />
+    </div>
+  </div>
+</div>

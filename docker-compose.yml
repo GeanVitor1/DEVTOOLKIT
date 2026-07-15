@@ -5,10 +5,15 @@ services:
       - "4200:80"
     depends_on:
       - backend
+    environment:
+      # Used only if you bake env into the image; nginx proxies /api to backend.
+      - BACKEND_HOST=backend
 
   backend:
     build: ./backend
     ports:
-      - "5000:8080"
+      - "5207:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:8080
+      - CORS_ORIGINS=http://localhost:4200,http://127.0.0.1:4200

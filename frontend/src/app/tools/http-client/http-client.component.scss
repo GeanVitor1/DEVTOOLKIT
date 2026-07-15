@@ -78,6 +78,22 @@
   &::placeholder { color: var(--dtk-text-muted); }
 }
 
+.proxy-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--dtk-text-xs);
+  color: var(--dtk-text-secondary);
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    accent-color: var(--dtk-border-focus);
+    width: 14px;
+    height: 14px;
+  }
+}
+
 .btn-send {
   display: inline-flex;
   align-items: center;

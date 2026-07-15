@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { CopyButtonComponent } from '../../core/components/copy-button.component';
 import { StorageService } from '../../core/services/storage.service';
+import { ApiConfigService } from '../../core/services/api-config.service';
 
 
 interface KeyValueRow {
@@ -16,6 +17,14 @@ interface ResponseData {
   statusCode: number;
   headers: Record<string, string>;
   body: string;
+  timingMs: number;
+  sizeBytes: number;
+}
+
+interface ProxyApiResponse {
+  statusCode: number;
+  headers?: Record<string, string> | null;
+  body?: string | null;
   timingMs: number;
   sizeBytes: number;
 }
@@ -37,6 +46,8 @@ export class HttpClientComponent {
   readonly authValue = signal('');
   readonly bodyContent = signal('');
   readonly bodyType = signal<'json' | 'text'>('json');
+  /** When true, request goes through DevToolkit .NET proxy (avoids browser CORS). */
+  readonly useProxy = signal(true);
 
   readonly headers = signal<KeyValueRow[]>([
     { key: 'Content-Type', value: 'application/json', enabled: true }
@@ -56,6 +67,7 @@ export class HttpClientComponent {
 
   private readonly http = inject(HttpClient);
   private readonly storage = inject(StorageService);
+  private readonly api = inject(ApiConfigService);
 
   constructor() {
     const saved = this.storage.load<{ method: string; url: string; body: string }>('http-last');
@@ -114,10 +126,69 @@ export class HttpClientComponent {
   }
 
   private async executeRequest(): Promise<ResponseData> {
+    if (this.useProxy()) {
+      return this.executeViaProxy();
+    }
+    return this.executeDirect();
+  }
+
+  /** Sends through backend POST /api/proxy (Render) — recommended in production. */
+  private async executeViaProxy(): Promise<ResponseData> {
+    const targetUrl = this.buildUrl();
+    if (!/^https?:\/\//i.test(targetUrl)) {
+      throw new Error('URL deve ser absoluta (https://...) para o proxy');
+    }
+
+    const startTime = performance.now();
+    try {
+      const payload = {
+        method: this.method(),
+        url: targetUrl,
+        headers: this.buildHeaders(),
+        body: this.buildBody(),
+        timeoutMs: 30000
+      };
+
+      const result = await lastValueFrom(
+        this.http.post<ProxyApiResponse>(this.api.proxyUrl, payload)
+      );
+
+      return {
+        statusCode: result.statusCode,
+        headers: result.headers ?? {},
+        body: result.body ?? '',
+        timingMs: result.timingMs || Math.round(performance.now() - startTime),
+        sizeBytes: result.sizeBytes || new Blob([result.body ?? '']).size
+      };
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'status' in err) {
+        const httpErr = err as { status: number; error?: unknown; message?: string };
+        const body =
+          typeof httpErr.error === 'string'
+            ? httpErr.error
+            : JSON.stringify(httpErr.error ?? { error: 'Proxy request failed' });
+        if (httpErr.status === 0 || httpErr.status === 504) {
+          throw new Error(
+            'Não foi possível alcançar a API. Verifique se o backend no Render está online e se NG_APP_API_URL / rewrite da Vercel estão corretos.'
+          );
+        }
+        return {
+          statusCode: httpErr.status || 502,
+          headers: {},
+          body,
+          timingMs: Math.round(performance.now() - startTime),
+          sizeBytes: 0
+        };
+      }
+      throw err;
+    }
+  }
+
+  /** Browser-direct request (may fail with CORS). */
+  private async executeDirect(): Promise<ResponseData> {
     const url = this.buildUrl();
     const headers = this.buildHeaders();
     const body = this.buildBody();
-
     const startTime = performance.now();
 
     try {
@@ -148,7 +219,7 @@ export class HttpClientComponent {
     } catch (err: unknown) {
       const endTime = performance.now();
       if (err && typeof err === 'object' && 'status' in err) {
-        const httpErr = err as { status: number; error?: { body?: string }; headers?: { keys(): string[]; get(k: string): string } };
+        const httpErr = err as { status: number; error?: unknown };
         return {
           statusCode: httpErr.status,
           headers: {},

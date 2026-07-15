@@ -1,0 +1,54 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-status)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">HTTP Status Codes</h1>
+      <p class="tool-page-desc">Referência rápida dos códigos de status mais usados</p>
+    </div>
+  </div>
+
+  <div class="status-controls">
+    <div class="status-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input
+        type="search"
+        placeholder="Buscar por código, nome ou descrição..."
+        [value]="query()"
+        (input)="query.set($any($event.target).value)"
+      />
+    </div>
+    <div class="status-cats">
+      @for (cat of categories; track cat) {
+        <button
+          class="status-cat"
+          [class.active]="category() === cat"
+          (click)="category.set(cat)"
+        >
+          {{ cat === 'all' ? 'Todos' : cat.split(' ')[0] }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="status-list">
+    @for (item of filtered(); track item.code) {
+      <div class="status-card" [style.--status-color]="categoryColor(item.category)">
+        <div class="status-code">{{ item.code }}</div>
+        <div class="status-body">
+          <div class="status-name-row">
+            <h3 class="status-name">{{ item.name }}</h3>
+            <app-copy-button [value]="'' + item.code" size="sm" label="Copy" />
+          </div>
+          <p class="status-desc">{{ item.description }}</p>
+          <span class="status-cat-label">{{ item.category }}</span>
+        </div>
+      </div>
+    } @empty {
+      <div class="status-empty">Nenhum status encontrado</div>
+    }
+  </div>
+</div>

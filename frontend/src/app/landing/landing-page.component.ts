@@ -2,11 +2,18 @@ import { Component } from '@angular/core';
 import { HeroSectionComponent } from './components/hero-section.component';
 import { FeaturesSectionComponent } from './components/features-section.component';
 import { ToolShowcaseComponent } from './components/tool-showcase.component';
+import { ToolsGridSectionComponent } from './components/tools-grid-section.component';
 import { FooterSectionComponent } from './components/footer-section.component';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [HeroSectionComponent, FeaturesSectionComponent, ToolShowcaseComponent, FooterSectionComponent],
+  imports: [
+    HeroSectionComponent,
+    FeaturesSectionComponent,
+    ToolShowcaseComponent,
+    ToolsGridSectionComponent,
+    FooterSectionComponent,
+  ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss'
 })

@@ -7,27 +7,26 @@
     <div class="hero-text">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
-        v1.0 &mdash; 21 professional tools
+        {{ toolsCount }} ferramentas · 100% no browser
       </div>
 
       <h1 class="hero-title">
-        <span class="decoder-line" id="decoder-line-1"></span><br/>
-        <span class="hero-title-em decoder-line" id="decoder-line-2"></span>
+        <span class="decoder-line" id="decoder-line-1">Ferramentas que </span><br/>
+        <span class="hero-title-em decoder-line" id="decoder-line-2">realmente entregam resultados</span>
       </h1>
 
       <p class="hero-subtitle">
-        HTTP Client, JSON Formatter, JWT Decoder, SQL Formatter, Regex Tester, UUID Generator, Hash Generator, Base64 Codec, Color Converter, Cron Builder, and 11 more.
-        100% client-side, with the quality your code deserves.
+        HTTP, JSON, JWT, SQL, regex e dezenas de utilitários. Rápido, privado e sem backend.
       </p>
 
       <div class="hero-actions">
         <a class="btn-primary" routerLink="/tools">
-          <span>Get started</span>
+          <span>Abrir toolkit</span>
           <span class="btn-arrow">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </span>
         </a>
-        <a class="btn-secondary" href="#tools">Explore tools</a>
+        <a class="btn-secondary" href="#tools">Ver ferramentas</a>
       </div>
     </div>
 
@@ -43,10 +42,10 @@
         </div>
         <div class="terminal-body">
           <div class="terminal-line"><span class="prompt">$</span> <span class="cmd">http GET api/users</span></div>
-          <div class="terminal-line output"><span class="status-200">200</span> <span class="text-dim">OK</span> <span class="text-faded">&mdash; 234ms</span></div>
+          <div class="terminal-line output"><span class="status-200">200</span> <span class="text-dim">OK</span> <span class="text-faded">· 234ms</span></div>
           <div class="terminal-line output json"><span class="json-bracket">&#123;</span></div>
           <div class="terminal-line output json indent"><span class="json-key">"users"</span>: [</div>
-          <div class="terminal-line output json indent2"><span class="json-key">"id"</span>: <span class="json-num">1</span>, <span class="json-key">"name"</span>: <span class="json-str">"John"</span></div>
+          <div class="terminal-line output json indent2"><span class="json-key">"id"</span>: <span class="json-num">1</span>, <span class="json-key">"name"</span>: <span class="json-str">"Ada"</span></div>
           <div class="terminal-line output json indent">]</div>
           <div class="terminal-line output json"><span class="json-bracket">&#125;</span></div>
           <div class="terminal-line spacer"></div>
@@ -58,7 +57,7 @@
 
   <div class="hero-metrics">
     <div class="hero-metric">
-      <span class="hero-metric-value">21</span>
+      <span class="hero-metric-value">{{ toolsCount }}</span>
       <span class="hero-metric-label">Tools</span>
     </div>
     <div class="hero-metric">
@@ -66,16 +65,12 @@
       <span class="hero-metric-label">Client-side</span>
     </div>
     <div class="hero-metric">
-      <span class="hero-metric-value">&infin;</span>
-      <span class="hero-metric-label">Free</span>
+      <span class="hero-metric-value">0</span>
+      <span class="hero-metric-label">Tracking</span>
     </div>
     <div class="hero-metric">
-      <span class="hero-metric-value">&#128274;</span>
-      <span class="hero-metric-label">Private</span>
+      <span class="hero-metric-value">∞</span>
+      <span class="hero-metric-label">Free</span>
     </div>
-  </div>
-
-  <div class="hero-scroll" aria-hidden="true">
-    <svg width="20" height="30" viewBox="0 0 20 30"><rect x="1" y="1" width="18" height="28" rx="9" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2" fill="currentColor" class="scroll-dot"/></svg>
   </div>
 </section>

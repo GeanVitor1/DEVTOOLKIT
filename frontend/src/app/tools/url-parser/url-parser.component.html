@@ -1,0 +1,69 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-url)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">URL Parser</h1>
+      <p class="tool-page-desc">Decomponha protocolo, host, path, query e hash</p>
+    </div>
+  </div>
+
+  <div class="url-input-card">
+    <div class="url-input-header">
+      <span>URL</span>
+      <button class="tool-action-sm" (click)="clear()">Limpar</button>
+    </div>
+    <textarea
+      class="url-textarea"
+      rows="3"
+      [value]="input()"
+      (input)="input.set($any($event.target).value); parse()"
+      placeholder="https://example.com/path?q=1#hash"
+    ></textarea>
+  </div>
+
+  @if (error()) {
+    <div class="url-error">{{ error() }}</div>
+  }
+
+  @if (parts().length) {
+    <div class="url-section">
+      <div class="url-section-header">
+        <h2>Componentes</h2>
+        <app-copy-button [value]="asJson()" size="sm" label="Copy JSON" />
+      </div>
+      <div class="url-table">
+        @for (part of parts(); track part.key) {
+          <div class="url-row">
+            <span class="url-key">{{ part.key }}</span>
+            <code class="url-val">{{ part.value }}</code>
+            @if (part.value !== '(none)' && part.value !== '(default)') {
+              <app-copy-button [value]="part.value" size="sm" label="Copy" />
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (queryParams().length) {
+    <div class="url-section">
+      <div class="url-section-header">
+        <h2>Query params ({{ queryParams().length }})</h2>
+      </div>
+      <div class="url-table">
+        @for (param of queryParams(); track param.key + param.value) {
+          <div class="url-row">
+            <span class="url-key">{{ param.key }}</span>
+            <code class="url-val">{{ param.value }}</code>
+            <app-copy-button [value]="param.value" size="sm" label="Copy" />
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

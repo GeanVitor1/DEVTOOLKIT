@@ -19,7 +19,7 @@
       class="url-input"
       [ngModel]="url()"
       (ngModelChange)="url.set($event)"
-      placeholder="Enter request URL..."
+      placeholder="https://api.example.com/endpoint"
       (keydown)="($event.key === 'Enter') && send()"
     />
     <button class="btn-send" (click)="send()" [disabled]="loading()">
@@ -33,6 +33,11 @@
       <span>{{ loading() ? 'Sending...' : 'Send' }}</span>
     </button>
   </div>
+
+  <label class="proxy-toggle">
+    <input type="checkbox" [checked]="useProxy()" (change)="useProxy.set(!useProxy())" />
+    <span>Usar proxy do backend (recomendado em produção - evita CORS)</span>
+  </label>
 
   <div class="tabs-bar">
     @for (tab of tabs; track tab.id) {
