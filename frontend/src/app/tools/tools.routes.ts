@@ -19,6 +19,18 @@ export const toolRoutes: Routes = [
       { path: 'timestamp-converter', loadComponent: () => import('./timestamp-converter/timestamp-converter.component').then(c => c.TimestampConverterComponent) },
       { path: 'color-converter', loadComponent: () => import('./color-converter/color-converter.component').then(c => c.ColorConverterComponent) },
       { path: 'cron-builder', loadComponent: () => import('./cron-builder/cron-builder.component').then(c => c.CronBuilderComponent) },
+      { path: 'html-entities', loadComponent: () => import('./html-entities/html-entities.component').then(c => c.HtmlEntitiesComponent) },
+      { path: 'json-yaml', loadComponent: () => import('./json-yaml/json-yaml.component').then(c => c.JsonYamlComponent) },
+      { path: 'password-generator', loadComponent: () => import('./password-generator/password-generator.component').then(c => c.PasswordGeneratorComponent) },
+      { path: 'number-base', loadComponent: () => import('./number-base/number-base.component').then(c => c.NumberBaseComponent) },
+      { path: 'csv-json', loadComponent: () => import('./csv-json/csv-json.component').then(c => c.CsvJsonComponent) },
+      { path: 'ip-cidr', loadComponent: () => import('./ip-cidr/ip-cidr.component').then(c => c.IpCidrComponent) },
+      { path: 'text-case', loadComponent: () => import('./text-case/text-case.component').then(c => c.TextCaseComponent) },
+      { path: 'xml-formatter', loadComponent: () => import('./xml-formatter/xml-formatter.component').then(c => c.XmlFormatterComponent) },
+      { path: 'qr-code', loadComponent: () => import('./qr-code/qr-code.component').then(c => c.QrCodeComponent) },
+      { path: 'diff-checker', loadComponent: () => import('./diff-checker/diff-checker.component').then(c => c.DiffCheckerComponent) },
+      { path: 'string-utils', loadComponent: () => import('./string-utils/string-utils.component').then(c => c.StringUtilsComponent) },
+      { path: 'lorem-ipsum', loadComponent: () => import('./lorem-ipsum/lorem-ipsum.component').then(c => c.LoremIpsumComponent) },
       { path: '', redirectTo: 'http-client', pathMatch: 'full' }
     ]
   }

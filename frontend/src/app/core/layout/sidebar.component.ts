@@ -112,6 +112,78 @@ export class SidebarComponent {
           label: 'Cron Builder',
           route: '/tools/cron-builder',
           color: 'var(--dtk-cron)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+          label: 'HTML Entities',
+          route: '/tools/html-entities',
+          color: 'var(--dtk-html)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+          label: 'JSON ↔ YAML',
+          route: '/tools/json-yaml',
+          color: 'var(--dtk-yaml)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+          label: 'Password Gen',
+          route: '/tools/password-generator',
+          color: 'var(--dtk-password)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+          label: 'Number Base',
+          route: '/tools/number-base',
+          color: 'var(--dtk-num-base)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+          label: 'CSV ↔ JSON',
+          route: '/tools/csv-json',
+          color: 'var(--dtk-csv)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>`,
+          label: 'IP/CIDR',
+          route: '/tools/ip-cidr',
+          color: 'var(--dtk-ip)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>`,
+          label: 'Text Case',
+          route: '/tools/text-case',
+          color: 'var(--dtk-text-case)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+          label: 'XML Formatter',
+          route: '/tools/xml-formatter',
+          color: 'var(--dtk-xml)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="4" height="4"/><rect x="7" y="17" width="3" height="3"/></svg>`,
+          label: 'QR Code',
+          route: '/tools/qr-code',
+          color: 'var(--dtk-qr)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+          label: 'Diff Checker',
+          route: '/tools/diff-checker',
+          color: 'var(--dtk-diff)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>`,
+          label: 'String Utils',
+          route: '/tools/string-utils',
+          color: 'var(--dtk-string)'
+        },
+        {
+          icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="12" y1="12" x2="12" y2="20"/></svg>`,
+          label: 'Lorem Ipsum',
+          route: '/tools/lorem-ipsum',
+          color: 'var(--dtk-lorem)'
         }
       ]
     }

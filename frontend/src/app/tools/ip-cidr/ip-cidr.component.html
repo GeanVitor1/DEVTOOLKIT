@@ -1,0 +1,85 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-ip)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">IP/CIDR Calculator</h1>
+      <p class="tool-page-desc">Calcule informações de rede a partir de uma notação CIDR</p>
+    </div>
+  </div>
+
+  <div class="cidr-card">
+    <div class="cidr-input-row">
+      <span class="numbase-base-badge" style="background: var(--dtk-ip)">CIDR</span>
+      <input
+        class="cidr-input"
+        placeholder="Ex: 192.168.1.0/24"
+        [value]="input()"
+        (input)="input.set($any($event.target).value); calculate()"
+      />
+    </div>
+
+    @if (error()) {
+      <div class="numbase-error">{{ error() }}</div>
+    }
+
+    @if (network()) {
+      <div class="cidr-results">
+        <div class="cidr-group">
+          <div class="cidr-group-title">Informações da Rede</div>
+          <div class="cidr-grid">
+            <div class="cidr-item">
+              <span class="cidr-item-label">Classe</span>
+              <span class="cidr-item-value" style="color: var(--dtk-ip)">{{ cidrClass() }}</span>
+            </div>
+            <div class="cidr-item">
+              <span class="cidr-item-label">Endereço de Rede</span>
+              <span class="cidr-item-value" style="color: var(--dtk-ip)">{{ network() }}</span>
+            </div>
+            <div class="cidr-item">
+              <span class="cidr-item-label">Máscara</span>
+              <span class="cidr-item-value">{{ netmask() }}</span>
+            </div>
+            <div class="cidr-item">
+              <span class="cidr-item-label">Wildcard</span>
+              <span class="cidr-item-value">{{ wildcard() }}</span>
+            </div>
+            <div class="cidr-item">
+              <span class="cidr-item-label">Binário</span>
+              <span class="cidr-item-value code">{{ binary() }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cidr-group">
+          <div class="cidr-group-title">Hosts</div>
+          <div class="cidr-grid">
+            <div class="cidr-item">
+              <span class="cidr-item-label">Primeiro Host</span>
+              <span class="cidr-item-value" style="color: var(--dtk-ip)">{{ firstHost() }}</span>
+            </div>
+            <div class="cidr-item">
+              <span class="cidr-item-label">Último Host</span>
+              <span class="cidr-item-value" style="color: var(--dtk-ip)">{{ lastHost() }}</span>
+            </div>
+            <div class="cidr-item">
+              <span class="cidr-item-label">Broadcast</span>
+              <span class="cidr-item-value" style="color: var(--dtk-ip)">{{ broadcast() }}</span>
+            </div>
+            <div class="cidr-item">
+              <span class="cidr-item-label">Total de Hosts</span>
+              <span class="cidr-item-value">{{ totalHosts() }}</span>
+            </div>
+            <div class="cidr-item">
+              <span class="cidr-item-label">Hosts Utilizáveis</span>
+              <span class="cidr-item-value code">{{ hostsUsable() }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

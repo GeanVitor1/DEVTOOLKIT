@@ -1,0 +1,78 @@
+<div class="tool-page">
+  <div class="tool-page-header">
+    <div class="tool-page-icon" style="--page-color: var(--dtk-diff)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+      </svg>
+    </div>
+    <div class="tool-page-info">
+      <h1 class="tool-page-title">Diff Checker</h1>
+      <p class="tool-page-desc">Compare textos lado a lado e veja as diferenças</p>
+    </div>
+  </div>
+
+  <div class="codec-controls">
+    <div class="sql-control-spacer"></div>
+    <button class="gen-btn" (click)="compare()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Comparar
+    </button>
+    <button class="tool-action-sm" (click)="clear()">Limpar</button>
+  </div>
+
+  <div class="diff-panels">
+    <div class="codec-panel">
+      <div class="codec-panel-header">
+        <span class="codec-panel-label" style="color: var(--dtk-diff)">Texto Original</span>
+      </div>
+      <textarea
+        class="codec-textarea"
+        placeholder="Cole o texto original aqui..."
+        [value]="left()"
+        (input)="left.set($any($event.target).value); compare()"
+        rows="10"
+      ></textarea>
+    </div>
+
+    <div class="codec-panel">
+      <div class="codec-panel-header">
+        <span class="codec-panel-label" style="color: var(--dtk-diff)">Texto Modificado</span>
+      </div>
+      <textarea
+        class="codec-textarea"
+        placeholder="Cole o texto modificado aqui..."
+        [value]="right()"
+        (input)="right.set($any($event.target).value); compare()"
+        rows="10"
+      ></textarea>
+    </div>
+  </div>
+
+  @if (output().length > 0) {
+    <div class="diff-results">
+      <div class="diff-results-header">
+        <span class="diff-results-label">Resultado da comparação</span>
+        <span class="diff-stats">
+          <span class="diff-stat added">{{ output().filter(l => l.type === 'added').length }} adicionadas</span>
+          <span class="diff-stat removed">{{ output().filter(l => l.type === 'removed').length }} removidas</span>
+          <span class="diff-stat same">{{ output().filter(l => l.type === 'same').length }} iguais</span>
+        </span>
+      </div>
+
+      <div class="diff-table">
+        <div class="diff-table-header">
+          <span class="diff-table-col">Original</span>
+          <span class="diff-table-col">Modificado</span>
+        </div>
+        @for (line of output(); track $index) {
+          <div class="diff-row" [class]="'diff-' + line.type">
+            <span class="diff-line-num">{{ line.num }}</span>
+            <span class="diff-cell">{{ line.left || '' }}</span>
+            <span class="diff-line-num">{{ line.num }}</span>
+            <span class="diff-cell">{{ line.right || '' }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
